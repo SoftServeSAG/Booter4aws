@@ -1,0 +1,95 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+
+    <xacro:include filename="$(find cr2_description)/params/cr2_params.urdf.xacro"/>
+
+    <xacro:macro name="add_head" params="parent_link">
+
+        <joint name="head_link_joint" type="fixed">
+            <origin xyz="0
+                         0
+                         0"
+                    rpy="0
+                         0
+                         0 "/>
+            <parent link="${parent_link}"/>
+            <child link="head"/>
+        </joint>
+
+
+        <link name="head">
+            <visual>
+                <xacro:head_to_body_translation_mash/>
+                <xacro:load_mash_scaled
+                        mash_filename="${cr2_head_mash}"
+                        scale_proportion="${scale_proportion}" />
+              <xacro:green_material/>
+            </visual>
+
+
+            <collision>
+                <xacro:head_to_body_translation_box/>
+                <xacro:set_box width="${head_box_y}"
+                               height="${head_box_z}"
+                               depth="${head_box_x}"/>
+            </collision>
+
+
+            <xacro:set_inertial width="${head_box_y}"
+                                height="${head_box_z}"
+                                depth="${head_box_x}"
+                                mass="${head_mass}">
+                <xacro:head_to_body_translation_box/>
+            </xacro:set_inertial>
+
+        </link>
+
+
+        <link name="tray">
+            <visual>
+                <xacro:tray_offset/>
+                <xacro:load_mash_scaled
+                        mash_filename="package://cr2_description/meshes/tray.stl"
+                        scale_proportion="${scale_proportion}" />
+                <xacro:green_material/>
+            </visual>
+
+            <xacro:box_inertia
+                    width="${tray_width}"
+                    height="${tray_height}"
+                    depth="${tray_lenght}"
+                    mass="${tray_mass}"/>
+        </link>
+
+        <joint name="tray_joint" type="fixed">
+            <xacro:head_to_body_translation_box/>
+            <parent link="head"/>
+            <child link="tray"/>
+        </joint>
+
+        <link name="monitor">
+            <visual>
+                <xacro:monitor_offset/>
+                <xacro:box_geometry
+                      width="${monitor_width}"
+                      height="${monitor_height}"
+                      depth="${monitor_lenght}"/>
+              <xacro:black_material/>
+            </visual>
+
+            <xacro:box_inertia
+                    width="${monitor_width}"
+                    height="${monitor_height}"
+                    depth="${monitor_lenght}"
+                    mass="${monitor_mass}"/>
+
+        </link>
+
+        <joint name="monitor_joint" type="fixed">
+            <xacro:head_to_body_translation_box/>
+            <parent link="head"/>
+            <child link="monitor"/>
+        </joint>
+    </xacro:macro>
+</robot>
+

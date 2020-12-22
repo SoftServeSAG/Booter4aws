@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+
+    <xacro:include filename="$(find cr2_description)/params/cr2_params.urdf.xacro"/>
+
+    <xacro:macro name="pillar" params="parent_link_name position x y z">
+
+        <link name="pillar_${position}_link">
+            <visual>
+              <xacro:cylinder_geometry
+                      radius="${pillar_radius}"
+                      height="${pillar_height}"/>
+              <xacro:navajo_white_material/>
+            </visual>
+
+            <xacro:cylinder_collision
+                    height="${pillar_height}"
+                    radius="${pillar_radius}"/>
+
+            <xacro:cylinder_inertia
+                    mass="${pillar_mass}"
+                    height="${pillar_height}"
+                    radius="${pillar_radius}"/>
+        </link>
+
+        <joint name="pillar_${position}_joint" type="fixed">
+            <origin xyz="${x} ${y} ${z}" rpy="0 0 0"/>
+            <parent link="${parent_link_name}" />
+            <child link="pillar_${position}_link" />
+        </joint>
+
+    </xacro:macro>
+
+</robot>

@@ -1,0 +1,71 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+
+    <xacro:include filename="$(find cr2_description)/params/cr2_params.urdf.xacro"/>
+
+    <xacro:macro name="wheel" params="prefix
+                                       side
+                                        wheel_type
+                                        mode
+                                        *joint_pose">
+
+        <link name="${prefix}_${side}_wheel_link">
+            <visual>
+                <xacro:if value="${mode == 'debug'}">
+                    <origin xyz="0 0 0" rpy="${PI/2} 0 0"/>
+                    <geometry>
+                        <cylinder radius="${wheel_radius}" length="${wheel_width}"/>
+                    </geometry>
+                </xacro:if>
+
+                <xacro:if value="${mode != 'debug'}">
+                    <origin xyz="${-wheel_radius - 0.0055}
+                                 ${wheel_width - 0.01}
+                                 ${-wheel_radius - 0.003}"
+
+                            rpy="${PI/2} 0 0"/>
+                <xacro:load_mash_scaled
+                        mash_filename="package://cr2_description/meshes/Mecanum_Wheel_${wheel_type}.stl"
+                        scale_proportion="0.0008" />
+                </xacro:if>
+                <material name="black" />
+            </visual>
+
+            <collision>
+                <origin xyz="0 0 0" rpy="${PI/2} 0 0"/>
+                <geometry>
+                    <cylinder radius="${wheel_radius}" length="${wheel_width}"/>
+                </geometry>
+            </collision>
+
+            <inertial>
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+                <mass value="2.3"/>
+                <inertia ixx="3.3212e-3" ixy="0" ixz="0"
+                            iyy="6.6424e-3" iyz="0"
+                            izz="3.3212e-3"/>
+            </inertial>
+        </link>
+
+        <joint name="${prefix}_${side}_wheel" type="continuous">
+            <parent link="base_platform"/>
+            <child link="${prefix}_${side}_wheel_link" />
+            <xacro:insert_block name="joint_pose" />
+            <axis xyz="0 1 0" />
+        </joint>
+
+        <transmission name="${prefix}_wheel_trans">
+            <type>transmission_interface/SimpleTransmission</type>
+            <joint name="${prefix}_${side}_wheel">
+                <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+            </joint>
+            <actuator name="${prefix}_${side}_actuator">
+                <mechanicalReduction>60</mechanicalReduction>
+                <motorTorqueConstant>4.4</motorTorqueConstant>
+            </actuator>
+        </transmission>
+    </xacro:macro>
+
+
+
+</robot>

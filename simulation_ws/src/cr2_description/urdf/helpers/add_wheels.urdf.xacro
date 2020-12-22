@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+
+    <xacro:include filename="$(find cr2_description)/params/cr2_params.urdf.xacro"/>
+
+    <xacro:include filename="$(find cr2_description)/urdf/modified_wheels.urdf.xacro"/>
+
+    <xacro:macro name="add_wheels" params="parent_length parent_height parent_width mode">
+        <xacro:wheel mode="${mode}" prefix="rear" wheel_type="1" side="left"  >
+            <xacro:r_l_wheel_pose/>
+        </xacro:wheel>
+        <xacro:wheel mode="${mode}" prefix="rear" wheel_type="2" side="right"  >
+            <xacro:r_r_wheel_pose/>
+        </xacro:wheel>
+        <xacro:wheel mode="${mode}" prefix="front" wheel_type="2" side="left"  >
+            <xacro:f_l_wheel_pose/>
+        </xacro:wheel>
+        <xacro:wheel mode="${mode}" prefix="front" wheel_type="1" side="right"  >
+            <xacro:f_r_wheel_pose/>
+        </xacro:wheel>
+    </xacro:macro>
+
+</robot>

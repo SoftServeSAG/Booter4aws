@@ -1,0 +1,61 @@
+<?xml version="1.0"?>
+<launch>
+    <arg name="gui" default="false" />
+    <arg name="rviz" default="true" />
+    
+    <arg name="x" value="$(env START_X)" />
+    <arg name="y" value="$(env START_Y)" />
+    <arg name="z" value="0.0" />
+    <arg name="yaw" value="$(env START_YAW)" />
+    
+    <arg name="robot_namespace" default="/"/>
+
+    <param name="ROBOT_NAME" value="$(env ROBOT_NAME)"/>
+    <param name="ROBOT_SDF_FILE" value="$(find cr2_control)/static_models_w_plugin/cr2/cr2.sdf"/>
+    
+    <arg name="ROSBRIDGE_STATE" value="$(env ROSBRIDGE_STATE)" />
+    <param name="ROSBRIDGE_STATE" value="$(env ROSBRIDGE_STATE)"/>
+    <param name="ROSBRIDGE_IP" value="$(env ROSBRIDGE_IP)" />
+
+    <param name="use_custom_move_object_gazebo_plugin" value="$(optenv USE_CUSTOM_MOVE_OBJECT_GAZEBO_PLUGIN false)" />
+
+    <group if="$(eval ROSBRIDGE_STATE=='SERVER')" >
+        <param name="ROSBRIDGE_IP" value="localhost"/>
+        <include file="$(find rosbridge_server)/launch/rosbridge_websocket.launch" />
+    </group>
+    
+    <!-- Launch robot_fleet specific nodes -->
+    <node name="gazebo_model_mover" pkg="cr2_control" type="gazebo_model_mover.py" /> 
+    <node name="client_rosbridge" pkg="cr2_control" type="client_rosbridge.py" />
+
+
+    <include file="$(find cr2_control)/launch/control.launch"/>
+
+    <include file="$(find cr2_description)/launch/description.launch"/>
+    <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model"
+          args="-urdf -model cr2 -param robot_description -x $(arg x)
+              -y $(arg y)
+              -z $(arg z)
+              -Y $(arg yaw)"/>
+
+
+
+    
+    <!-- <include output="screen" file="$(find husky_gazebo)/launch/spawn_husky.launch" >
+        <arg name="x" value="$(env START_X)" />
+        <arg name="y" value="$(env START_Y)" />
+        <arg name="z" value="0.0" />
+        <arg name="yaw" value="$(env START_YAW)" />
+    </include> -->
+
+    <!-- Launch the world -->
+    <include file="$(find aws_robomaker_small_warehouse_world)/launch/no_roof_small_warehouse.launch" >
+        <arg name="gui" default="$(arg gui)" />
+    </include>
+
+    <!-- Run the map server -->
+    <arg name="map_file" default="$(find aws_robomaker_small_warehouse_world)/maps/005/map.yaml"/>
+    <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)" />
+
+
+</launch>
