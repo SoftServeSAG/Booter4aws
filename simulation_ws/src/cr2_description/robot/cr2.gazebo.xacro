@@ -11,7 +11,10 @@
     <robotNamespace>/</robotNamespace>
     <legacyModeNS>true</legacyModeNS>
   </plugin>
-
+  
+  <plugin name="sample" filename="libmove_object_plugin.so" />
+  
+  
   <plugin name="ridgeback_ros_force_based_move"
           filename="./libridgeback_ros_force_based_move.so">
   <robotNamespace>/</robotNamespace>

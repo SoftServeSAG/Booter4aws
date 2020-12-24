@@ -8,4 +8,9 @@
     <buildtool_depend>catkin</buildtool_depend>
     <depend>urdf</depend>
     <depend>xacro</depend>
+    
+    <export>
+      <gazebo_ros gazebo_media_path="${prefix}" gazebo_model_path="${prefix}" />
+    </export>
+    
 </package>

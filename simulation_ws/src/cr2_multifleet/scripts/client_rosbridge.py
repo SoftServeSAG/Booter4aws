@@ -67,26 +67,33 @@ class SendData:
 
     def main(self):
         rate = rospy.Rate(10.0)
-        listener = tf.TransformListener()
+        #listener = tf.TransformListener()
 
         while not rospy.is_shutdown():
             try:
-                (trans,rot) = listener.lookupTransform('map', '/base_link', rospy.Time(0))
-                nav_pose = {}
-                nav_pose['x'] = trans[0]
-                nav_pose['y'] = trans[1]
-                nav_pose['z'] = trans[2]
+               # (trans,rot) = listener.lookupTransform('map', '/base_link', rospy.Time(0))
+            #    nav_pose = {}
+            #    nav_pose['x'] = trans[0]
+            #    nav_pose['y'] = trans[1]
+            #    nav_pose['z'] = trans[2]
 
-                nav_pose['qx'] = rot[0]
-                nav_pose['qy'] = rot[1]
-                nav_pose['qz'] = rot[2]
-                nav_pose['qw'] = rot[3]
+            #    nav_pose['qx'] = rot[0]
+            #    nav_pose['qy'] = rot[1]
+            #    nav_pose['qz'] = rot[2]
+            #    nav_pose['qw'] = rot[3]
 
-                self.data_to_rosbridge['navigation_pose'] = nav_pose
+            #    self.data_to_rosbridge['navigation_pose'] = nav_pose
                 
                 gazebo_pose = {} 
-                gazebo_model_index = self.current_model_state.name.index("/")  # Looking for main robot which in under namespace "/"
+                gazebo_model_index = self.current_model_state.name.index("cr2")  # Looking for main robot which in under namespace "/"
+                
+                rospy.logerr("gazebo_model_index")
+                rospy.logerr(gazebo_model_index)
                 gz_pose = self.current_model_state.pose[gazebo_model_index]
+                
+                rospy.logerr("pose")
+                rospy.logerr(gz_pose)
+                
                 gazebo_pose['x'] = gz_pose.position.x
                 gazebo_pose['y'] = gz_pose.position.y
                 gazebo_pose['z'] = gz_pose.position.z
@@ -100,6 +107,12 @@ class SendData:
                 self.talker.publish(roslibpy.Message( {'data': json.dumps(self.data_to_rosbridge)} ))
             except (tf.LookupException, tf.ConnectivityException, tf.ExtrapolationException):
                 rospy.loginfo("[client_rosbridge] TF exception in gathering current position")
+            except :
+                rospy.loginfo("[client_rosbridge] exception")
+                try:
+                    rospy.loginfo(self.current_model_state)
+                except:
+                    rospy.loginfo("current_model_state")
 
             rate.sleep()
 

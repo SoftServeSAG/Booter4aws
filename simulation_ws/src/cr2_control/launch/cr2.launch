@@ -11,7 +11,7 @@
     <arg name="robot_namespace" default="/"/>
 
     <param name="ROBOT_NAME" value="$(env ROBOT_NAME)"/>
-    <param name="ROBOT_SDF_FILE" value="$(find cr2_control)/static_models_w_plugin/cr2/cr2.sdf"/>
+    <param name="ROBOT_SDF_FILE" value="$(find cr2_multifleet)/static_models_w_plugin/cr2/cr2.sdf"/>
     
     <arg name="ROSBRIDGE_STATE" value="$(env ROSBRIDGE_STATE)" />
     <param name="ROSBRIDGE_STATE" value="$(env ROSBRIDGE_STATE)"/>
@@ -25,8 +25,8 @@
     </group>
     
     <!-- Launch robot_fleet specific nodes -->
-    <node name="gazebo_model_mover" pkg="cr2_control" type="gazebo_model_mover.py" /> 
-    <node name="client_rosbridge" pkg="cr2_control" type="client_rosbridge.py" />
+    <node name="gazebo_model_mover" pkg="cr2_multifleet" type="gazebo_model_mover.py" /> 
+    <node name="client_rosbridge" pkg="cr2_multifleet" type="client_rosbridge.py" />
 
 
     <include file="$(find cr2_control)/launch/control.launch"/>
@@ -39,15 +39,6 @@
               -Y $(arg yaw)"/>
 
 
-
-    
-    <!-- <include output="screen" file="$(find husky_gazebo)/launch/spawn_husky.launch" >
-        <arg name="x" value="$(env START_X)" />
-        <arg name="y" value="$(env START_Y)" />
-        <arg name="z" value="0.0" />
-        <arg name="yaw" value="$(env START_YAW)" />
-    </include> -->
-
     <!-- Launch the world -->
     <include file="$(find aws_robomaker_small_warehouse_world)/launch/no_roof_small_warehouse.launch" >
         <arg name="gui" default="$(arg gui)" />
@@ -57,5 +48,7 @@
     <arg name="map_file" default="$(find aws_robomaker_small_warehouse_world)/maps/005/map.yaml"/>
     <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)" />
 
+    <!--- Run AMCL -->
+    <include output="screen" file="$(find cr2_control)/launch/amcl.launch"/>
 
 </launch>

@@ -70,7 +70,7 @@ using namespace gazebo;
             this->rosNode.reset(new ros::NodeHandle(this->model->GetName()));
 
             this->rosNode->getParam(std::string("/use_custom_move_object_gazebo_plugin"), this->use_custom_move_object_gazebo_plugin);
-            ROS_INFO_STREAM("use_move is set to: " << this->use_custom_move_object_gazebo_plugin);
+            ROS_ERROR_STREAM("use_move is set to: " << this->use_custom_move_object_gazebo_plugin);
 
 
             if (this->use_custom_move_object_gazebo_plugin)
