@@ -34,6 +34,7 @@
 #include <gazebo/physics/physics.hh>
 #include <sdf/sdf.hh>
 
+
 #include <geometry_msgs/Twist.h>
 #include <nav_msgs/OccupancyGrid.h>
 #include <nav_msgs/Odometry.h>
@@ -104,7 +105,12 @@ namespace gazebo {
       double rot_;
       bool alive_;
       common::Time last_odom_publish_time_;
-      math::Pose last_odom_pose_;
+      
+#if GAZEBO_MAJOR_VERSION < 8
+        math::Pose last_odom_pose_;
+#else
+        ignition::math::Pose3d last_odom_pose_;
+#endif
 
       double torque_yaw_velocity_p_gain_;
       double force_x_velocity_p_gain_;

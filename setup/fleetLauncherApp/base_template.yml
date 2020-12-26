@@ -44,12 +44,12 @@ Parameters:
     SimulationApplicationSimulationSoftwareSuiteVersion:
         Description: Simulaton software suite version for the simulation application
         Type: String
-        Default: "7"
+        Default: "9"
 
     SimulationApplicationROSRelease:
         Description: Software suite for the simulation application
         Type: String
-        Default: Kinetic 
+        Default: Melodic 
 
     SimulationApplicationS3Key:
         Description: Location of bundle within S3.

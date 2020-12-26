@@ -52,7 +52,7 @@ rosdep install --from-paths src --ignore-src -r -y
 sudo apt-get install python3-apt python3-pip -y
 sudo pip3 install -U setuptools pip
 sudo pip3 install colcon-ros-bundle
-colcon build
+colcon build --cmake-clean-first
 source install/setup.bash
 
 echo -e "We can use roslaunch here. Press any key to colcon bundle, or Ctrl+c to exit"

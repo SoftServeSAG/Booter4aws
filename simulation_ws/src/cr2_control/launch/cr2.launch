@@ -5,8 +5,10 @@
     
     <arg name="x" value="$(env START_X)" />
     <arg name="y" value="$(env START_Y)" />
-    <arg name="z" value="0.0" />
+    <arg name="z" value="$(env START_Z)" />
     <arg name="yaw" value="$(env START_YAW)" />
+    
+    <arg name="model_name" value="cr2" />
     
     <arg name="robot_namespace" default="/"/>
 
@@ -25,6 +27,7 @@
     </group>
     
     <!-- Launch robot_fleet specific nodes -->
+    <param name="MODEL_NAME" value="$(arg model_name)"/>
     <node name="gazebo_model_mover" pkg="cr2_multifleet" type="gazebo_model_mover.py" /> 
     <node name="client_rosbridge" pkg="cr2_multifleet" type="client_rosbridge.py" />
 
@@ -33,7 +36,7 @@
 
     <include file="$(find cr2_description)/launch/description.launch"/>
     <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model"
-          args="-urdf -model cr2 -param robot_description -x $(arg x)
+          args="-urdf -model $(arg model_name) -param robot_description -x $(arg x)
               -y $(arg y)
               -z $(arg z)
               -Y $(arg yaw)"/>

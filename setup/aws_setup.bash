@@ -10,7 +10,7 @@ AWS_PROFILE=default
 CURRENT_STACK=.current-aws-stack
 S3_OUTPUT_KEY=cr2multirobot/bundle/output.tar
 
-sudo pip3 install boto3==1.14.28
+sudo pip3 install boto3==1.14.28 > /dev/null
 
 # Setup AWS resources for the application
 if [ ! -f "$CURRENT_STACK" ]; then
@@ -31,5 +31,5 @@ else
   exit
 fi
 
-read -t 15 -p "Press any key to launch the sample simulation, or Ctrl+c within 15 seconds to exit." some_key
+read -t 5 -p "Press any key to launch the sample simulation, or Ctrl+c within 5 seconds to exit." some_key
 python3 $LAUNCHER_APP_DIR/fleetLauncherLambda/app.py $STACK_NAME

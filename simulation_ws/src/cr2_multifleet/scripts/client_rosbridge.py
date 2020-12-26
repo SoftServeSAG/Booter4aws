@@ -36,6 +36,7 @@ from gazebo_msgs.msg import ModelStates
 class SendData:
     def __init__(self):
         self.data_to_rosbridge = {}
+        self.name = rospy.get_param('MODEL_NAME')
         self.data_to_rosbridge['name'] = rospy.get_param('ROBOT_NAME')
         self.data_to_rosbridge['robot_sdf_file'] = rospy.get_param('ROBOT_SDF_FILE')
         self.data_to_rosbridge['navigation_pose'] = {}
@@ -85,14 +86,10 @@ class SendData:
             #    self.data_to_rosbridge['navigation_pose'] = nav_pose
                 
                 gazebo_pose = {} 
-                gazebo_model_index = self.current_model_state.name.index("cr2")  # Looking for main robot which in under namespace "/"
+                gazebo_model_index = self.current_model_state.name.index(self.name)  # Looking for main robot which in under namespace "/"
                 
-                rospy.logerr("gazebo_model_index")
-                rospy.logerr(gazebo_model_index)
                 gz_pose = self.current_model_state.pose[gazebo_model_index]
                 
-                rospy.logerr("pose")
-                rospy.logerr(gz_pose)
                 
                 gazebo_pose['x'] = gz_pose.position.x
                 gazebo_pose['y'] = gz_pose.position.y
@@ -110,7 +107,7 @@ class SendData:
             except :
                 rospy.loginfo("[client_rosbridge] exception")
                 try:
-                    rospy.loginfo(self.current_model_state)
+                    rospy.logerr(self.current_model_state)
                 except:
                     rospy.loginfo("current_model_state")
 

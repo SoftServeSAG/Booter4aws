@@ -13,16 +13,15 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   rospy
   std_msgs
-  gazebo_ros)
-
-find_package(gazebo REQUIRED)
+  gazebo_ros
+  gazebo)
 
 include_directories(${GAZEBO_INCLUDE_DIRS})
 list(APPEND CMAKE_CXX_FLAGS "${GAZEBO_CXX_FLAGS}")
 
 
 link_directories(${GAZEBO_LIBRARY_DIRS})
-include_directories(${Boost_INCLUDE_DIR} ${catkin_INCLUDE_DIRS} ${GAZEBO_INCLUDE_DIRS})
+include_directories(${catkin_INCLUDE_DIRS} ${GAZEBO_INCLUDE_DIRS})
 
 add_library(move_object_plugin src/move_object.cc)
 target_link_libraries(move_object_plugin ${catkin_LIBRARIES} ${GAZEBO_LIBRARIES})
@@ -42,8 +41,8 @@ catkin_install_python(PROGRAMS
   scripts/gazebo_model_mover.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
 
-install(DIRECTORY launch static_models_w_plugin config
-  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION})
+install(DIRECTORY static_models_w_plugin 
+DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION})
 
 install(TARGETS move_object_plugin
   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
