@@ -43,15 +43,17 @@
 
 
     <!-- Launch the world -->
-    <include file="$(find aws_robomaker_small_warehouse_world)/launch/no_roof_small_warehouse.launch" >
+    <include file="$(find aws_robomaker_hospital_world)/launch/hospital.launch" >
         <arg name="gui" default="$(arg gui)" />
     </include>
 
     <!-- Run the map server -->
-    <arg name="map_file" default="$(find aws_robomaker_small_warehouse_world)/maps/005/map.yaml"/>
-    <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)" />
+    <!--<arg name="map_file" default="$(find aws-robomaker-hospital-world)/maps/005/map.yaml"/>-->
+    <!--<node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)" />-->
 
-    <!--- Run AMCL -->
-    <include output="screen" file="$(find cr2_control)/launch/amcl.launch"/>
+    
+    <include file="$(find cr2_navigation)/launch/gmapping_demo.launch">
+        <arg name="simulation" default="true"/>
+    </include>
 
 </launch>

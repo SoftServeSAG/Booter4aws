@@ -5,8 +5,7 @@
 BASE_DIR=`pwd`
 ROS_APP_DIR=$BASE_DIR/simulation_ws
 LAUNCHER_APP_DIR=$BASE_DIR/setup/fleetLauncherApp
-STACK_NAME=cr2multirosbridge
-AWS_PROFILE=default
+STACK_NAME=teststack1
 CURRENT_STACK=.current-aws-stack
 S3_OUTPUT_KEY=cr2multirobot/bundle/output.tar
 
@@ -15,17 +14,17 @@ sudo pip3 install boto3==1.14.28 > /dev/null
 # Setup AWS resources for the application
 if [ ! -f "$CURRENT_STACK" ]; then
   # Deploy base stack (NOTE: This will NOT deploy the SAM-based Lambda function. To do that, follow the instructions in the README.)
-  aws cloudformation deploy --template-file $LAUNCHER_APP_DIR/base_template.yml --stack-name $STACK_NAME --capabilities CAPABILITY_NAMED_IAM --parameter-overrides SimulationApplicationS3Key=$S3_OUTPUT_KEY --profile $AWS_PROFILE
-  aws cloudformation wait stack-create-complete --stack-name $STACK_NAME --profile $AWS_PROFILE && echo "stackname=$STACK_NAME" > .current-aws-stack
+  aws cloudformation deploy --template-file $LAUNCHER_APP_DIR/base_template.yml --stack-name $STACK_NAME --capabilities CAPABILITY_NAMED_IAM --parameter-overrides SimulationApplicationS3Key=$S3_OUTPUT_KEY 
+  aws cloudformation wait stack-create-complete --stack-name $STACK_NAME && echo "stackname=$STACK_NAME" > .current-aws-stack
 fi
 
 # Upload the application bundle. 
-s3Bucket=$(aws cloudformation describe-stacks --stack-name $STACK_NAME --query "Stacks[0].Outputs[?OutputKey=='RoboMakerS3Bucket'].OutputValue" --profile $AWS_PROFILE --output text)
+s3Bucket=$(aws cloudformation describe-stacks --stack-name $STACK_NAME --query "Stacks[0].Outputs[?OutputKey=='RoboMakerS3Bucket'].OutputValue" --output text)
 
 if [ ! $s3Bucket==None ] || [ -f "$ROS_APP_DIR/bundle/output.tar" ]
 then
   echo "Uploading files..."
-  aws s3 cp $ROS_APP_DIR/bundle/output.tar s3://$s3Bucket/$S3_OUTPUT_KEY --profile $AWS_PROFILE
+  aws s3 cp $ROS_APP_DIR/bundle/output.tar s3://$s3Bucket/$S3_OUTPUT_KEY
 else
   echo "Bundle could not be uploaded. Please ensure \"$ROS_APP_DIR/bundle/output.tar\" and the S3 bucket \"$s3Bucket\" exist."
   exit

@@ -1,5 +1,7 @@
 <sdf version='1.6'>
   <model name='cr2'>
+    <static>true</static>
+    <plugin name='sample' filename='libmove_object_plugin.so'/>
     <link name='base_link'>
       <pose frame=''>0 0 0 0 -0 0</pose>
       <inertial>
@@ -216,35 +218,7 @@
       <gravity>1</gravity>
       <gravity>1</gravity>
       <velocity_decay/>
-      <sensor name='laser' type='ray'>
-        <visualize>0</visualize>
-        <update_rate>40</update_rate>
-        <ray>
-          <scan>
-            <horizontal>
-              <samples>1081</samples>
-              <resolution>1</resolution>
-              <min_angle>0</min_angle>
-              <max_angle>6.28318</max_angle>
-            </horizontal>
-          </scan>
-          <range>
-            <min>0.3</min>
-            <max>5</max>
-            <resolution>0.01</resolution>
-          </range>
-          <noise>
-            <type>gaussian</type>
-            <mean>0</mean>
-            <stddev>0.01</stddev>
-          </noise>
-        </ray>
-        <plugin name='gazebo_ros_rplidar_controller' filename='libgazebo_ros_laser.so'>
-          <topicName>front/scan</topicName>
-          <frameName>laser_oscillator</frameName>
-        </plugin>
-        <pose frame=''>0 0 0.6055 0 -0 -3.14159</pose>
-      </sensor>
+      
     </link>
     <link name='front_left_wheel_link'>
       <pose frame=''>0.16 0.15 0 0 -0 0</pose>
@@ -530,24 +504,6 @@
         <use_parent_model_frame>1</use_parent_model_frame>
       </axis>
     </joint>
-    <static>0</static>
-    <plugin name='gazebo_ros_control' filename='libgazebo_ros_control.so'>
-      <robotNamespace>/</robotNamespace>
-      <legacyModeNS>1</legacyModeNS>
-    </plugin>
-    <plugin name='sample' filename='libmove_object_plugin.so'/>
-    <plugin name='ridgeback_ros_force_based_move' filename='./libridgeback_ros_force_based_move.so'>
-      <robotNamespace>/</robotNamespace>
-      <commandTopic>cmd_vel</commandTopic>
-      <odometryTopic>odom</odometryTopic>
-      <odometryFrame>odom</odometryFrame>
-      <odometryRate>25.0</odometryRate>
-      <robotBaseFrame>base_link</robotBaseFrame>
-      <cmdVelTimeOut>0.25</cmdVelTimeOut>
-      <publishOdometryTf>0.0</publishOdometryTf>
-      <yaw_velocity_p_gain>500.0</yaw_velocity_p_gain>
-      <x_velocity_p_gain>10000.0</x_velocity_p_gain>
-      <y_velocity_p_gain>10000.0</y_velocity_p_gain>
-    </plugin>
+
   </model>
 </sdf>

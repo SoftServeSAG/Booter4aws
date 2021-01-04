@@ -7,3 +7,8 @@
     uri: https://github.com/RobotWebTools/rosbridge_suite.git
     local-name: src/deps/rosbridge_suite
     version: 0.11.2
+    
+- git:
+    local-name: src/deps/aws-robomaker-hospital-world
+    uri: https://github.com/aws-robotics/aws-robomaker-hospital-world.git
+    version: master

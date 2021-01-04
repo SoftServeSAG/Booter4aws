@@ -1,1 +1,1 @@
-gz sdf -p /my_urdf.urdf > /my_sdf.sdf
+gz sdf -p my_urdf.urdf > my_sdf.sdf

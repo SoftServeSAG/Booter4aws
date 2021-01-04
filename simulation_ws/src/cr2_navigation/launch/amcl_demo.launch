@@ -1,0 +1,22 @@
+<launch>
+    <arg name="simulation" default="true"/>
+
+    <!--<include file="$(find cr2_navigation)/launch/include/map_load.launch">-->
+    <!--    <arg name="map_file" value="hq.yaml"/>-->
+    <!--</include>-->
+
+    <include file="$(find cr2_navigation)/launch/include/amcl.launch">
+        <arg if="$(arg simulation)" name="scan_topic" value="/front/scan"/>
+        <arg unless="$(arg simulation)" name="scan_topic" value="/rpi_scan_filtered"/>
+    </include>
+
+    <include file="$(find cr2_navigation)/launch/include/move_base.launch">
+        <arg if="$(arg simulation)" name="params_dir_path" value="$(find cr2_navigation)/params/move_base/sim"/>
+        <arg unless="$(arg simulation)" name="params_dir_path" value="$(find cr2_navigation)/params/move_base/hw"/>
+    </include>
+
+    <include file="$(find cr2_navigation)/launch/include/ekf.launch">
+        <arg if="$(arg simulation)" name="config_file_path" value="$(find cr2_navigation)/params/ekf/ekf_sim.yaml"/>
+        <arg unless="$(arg simulation)" name="config_file_path" value="$(find cr2_navigation)/params/ekf/ekf.yaml"/>
+    </include>
+</launch>

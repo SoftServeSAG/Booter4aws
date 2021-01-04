@@ -10,5 +10,5 @@ catkin_package(
         urdf
         xacro)
 
-install(DIRECTORY launch urdf robot params meshes
+install(DIRECTORY launch urdf robot params meshes rviz
     DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION})

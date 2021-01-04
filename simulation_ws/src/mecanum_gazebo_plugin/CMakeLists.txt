@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(mecanum_gazebo_plugin)
 
+cmake_policy(SET CMP0054 NEW)
+
 find_package(catkin REQUIRED COMPONENTS rosconsole roslint)
 find_package(gazebo)
 
