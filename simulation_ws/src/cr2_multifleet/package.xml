@@ -16,6 +16,7 @@
     <depend>sensor_msgs</depend>
     <depend>tf</depend>
     <depend>urdf</depend>
+    <depend>rospy_message_converter</depend>
     
 
     <exec_depend>interactive_marker_twist_server</exec_depend>

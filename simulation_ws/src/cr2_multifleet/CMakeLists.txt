@@ -39,6 +39,8 @@ catkin_package(
 catkin_install_python(PROGRAMS
   scripts/client_rosbridge.py
   scripts/gazebo_model_mover.py
+  scripts/data_client_rosbridge.py
+  scripts/data_server_rosbridge.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
 
 install(DIRECTORY static_models_w_plugin 

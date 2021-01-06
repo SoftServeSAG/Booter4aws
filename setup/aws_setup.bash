@@ -9,6 +9,8 @@ STACK_NAME=teststack1
 CURRENT_STACK=.current-aws-stack
 S3_OUTPUT_KEY=cr2multirobot/bundle/output.tar
 
+export AWS_DEFAULT_REGION=us-east-2
+
 sudo pip3 install boto3==1.14.28 > /dev/null
 
 # Setup AWS resources for the application

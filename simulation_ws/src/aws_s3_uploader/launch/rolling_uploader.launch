@@ -1,0 +1,18 @@
+<launch>
+    <arg name="s3_bucket"/>
+    <arg name="bag_rollover_time" default="10"></arg>
+    <arg name="max_record_time" default="10"></arg>
+    
+    <!-- Launch S3 uploader -->
+    <include file="$(find aws_s3_uploader)/launch/s3_file_uploader.launch" >
+        <arg name="s3_bucket" value="$(arg s3_bucket)"/>
+    </include>
+    
+    <include file="$(find rosbag_cloud_recorders)/launch/rolling_recorder.launch" >
+        <arg name="bag_rollover_time" value="$(arg bag_rollover_time)"/>
+        <arg name="max_record_time" value="$(arg max_record_time)"/>
+    </include>
+    
+    
+    
+</launch>

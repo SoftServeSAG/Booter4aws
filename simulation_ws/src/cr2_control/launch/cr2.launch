@@ -30,8 +30,17 @@
     <param name="MODEL_NAME" value="$(arg model_name)"/>
     <node name="gazebo_model_mover" pkg="cr2_multifleet" type="gazebo_model_mover.py" /> 
     <node name="client_rosbridge" pkg="cr2_multifleet" type="client_rosbridge.py" />
+    
+    
+    <node name="data_client_rosbridge" pkg="cr2_multifleet" type="data_client_rosbridge.py">
+        <!-- value must contain '/' on the front -->
+        <param name="topic" value="/front/scan"/> 
+        <param name="message_type" value="sensor_msgs/LaserScan"/>
+    </node>
+    
+    <node name="data_server_rosbridge" pkg="cr2_multifleet" type="data_server_rosbridge.py" />
 
-
+    <!-- Launch cr2 control -->
     <include file="$(find cr2_control)/launch/control.launch"/>
 
     <include file="$(find cr2_description)/launch/description.launch"/>
