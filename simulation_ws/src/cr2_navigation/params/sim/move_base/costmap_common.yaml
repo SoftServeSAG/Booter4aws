@@ -1,0 +1,12 @@
+footprint: [[0.48, -0.40], [0.48, 0.40], [-0.48, 0.40], [-0.48, -0.40]]
+footprint_padding: -0.1
+
+robot_base_frame: base_link
+update_frequency: 5.0
+publish_frequency: 5.001
+transform_tolerance: 0.5
+
+obstacle_range: 12.0
+raytrace_range: 15.0
+
+always_send_full_costmap: true

@@ -29,6 +29,7 @@
     <exec_depend>topic_tools</exec_depend>
     <test_depend>roslaunch</test_depend>
     
+    <exec_depend>explore_lite</exec_depend>
     
     <exec_depend>map_server</exec_depend>
     <exec_depend>amcl</exec_depend>

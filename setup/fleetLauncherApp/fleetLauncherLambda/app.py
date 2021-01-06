@@ -144,6 +144,14 @@ def lambda_handler(event, context):
     client_job_params[robot['name']]['simulationApplications'].append(client_app_params[robot['name']])
     batch_job_requests.append(client_job_params[robot['name']])
 
+  if len(batch_job_requests) == 0:
+    return {
+    'statusCode': 200,
+    'body': json.dumps({
+            'simulation_job': server_job_response['arn']
+        })
+    }
+
   response = robomaker.start_simulation_job_batch(
         batchPolicy={
           'timeoutInSeconds': DEFAULT_MAX_DURATION,

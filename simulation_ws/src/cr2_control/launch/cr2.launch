@@ -52,8 +52,8 @@
     <!--<node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)" />-->
 
     
-    <include file="$(find cr2_navigation)/launch/gmapping_demo.launch">
-        <arg name="simulation" default="true"/>
-    </include>
+    <!--<include file="$(find cr2_navigation)/launch/gmapping_demo.launch">-->
+    <!--    <arg name="simulation" default="true"/>-->
+    <!--</include>-->
 
 </launch>
