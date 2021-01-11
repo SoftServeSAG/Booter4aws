@@ -1,6 +1,6 @@
 {
     "robots": [
-          {
+    {
         "name": "robot1",
         "environmentVariables": {
             "START_X": "2",
@@ -11,7 +11,7 @@
         },
         "packageName": "cr2_control",
         "launchFile": "cr2.launch"
-      }
+    }
     ],
     "server": {
         "name": "SERVER",
@@ -20,7 +20,8 @@
             "START_Y": "0",
             "START_Z": "0.0",
             "START_YAW": "0",
-            "USE_CUSTOM_MOVE_OBJECT_GAZEBO_PLUGIN":"true"
+            "USE_CUSTOM_MOVE_OBJECT_GAZEBO_PLUGIN":"true",
+            "MAPPING":"true"
         },
         "packageName": "cr2_control",
         "launchFile": "cr2.launch"

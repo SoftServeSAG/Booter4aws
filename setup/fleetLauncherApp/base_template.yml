@@ -10,7 +10,13 @@ Parameters:
         Description: Please enter the IP range (CIDR notation) for this VPC
         Type: String
         Default: 10.168.0.0/16
-
+    
+    VpcEnableDnsHostames:
+        Description: Enable DNS Hostnames
+        Type: String
+        Default: true
+        AllowedValues: [true, false]
+        
     PublicSubnet1CIDR:
         Description: Please enter the IP range (CIDR notation) for the public subnet in the first Availability Zone
         Type: String
@@ -62,6 +68,7 @@ Resources:
         Type: AWS::EC2::VPC
         Properties:
             CidrBlock: !Ref VpcCIDR
+            EnableDnsHostnames: !Ref VpcEnableDnsHostames
             Tags: 
                 - Key: Name 
                   Value: !Ref AWS::StackName
@@ -163,6 +170,7 @@ Resources:
                         Service:
                         - robomaker.amazonaws.com
                         - lambda.amazonaws.com
+                        - ec2.amazonaws.com
                     Action:
                         - sts:AssumeRole
 

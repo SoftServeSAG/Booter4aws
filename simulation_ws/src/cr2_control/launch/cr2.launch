@@ -18,6 +18,7 @@
     <arg name="ROSBRIDGE_STATE" value="$(env ROSBRIDGE_STATE)" />
     <param name="ROSBRIDGE_STATE" value="$(env ROSBRIDGE_STATE)"/>
     <param name="ROSBRIDGE_IP" value="$(env ROSBRIDGE_IP)" />
+    <arg name="mapping" value="$(optenv MAPPING false)" />
 
     <param name="use_custom_move_object_gazebo_plugin" value="$(optenv USE_CUSTOM_MOVE_OBJECT_GAZEBO_PLUGIN false)" />
 
@@ -55,14 +56,29 @@
     <include file="$(find aws_robomaker_hospital_world)/launch/hospital.launch" >
         <arg name="gui" default="$(arg gui)" />
     </include>
+    
+    <!-- Launch navigation stack -->
+    <include file="$(find cr2_navigation)/launch/include/move_base.launch" />    
+    <include file="$(find cr2_navigation)/launch/include/ekf.launch" />     
+
+    <!-- Launch amcl package -->
+    <!--<include file="$(find cr2_navigation)/launch/include/amcl.launch">  -->
+    <!--    <arg name="initial_pose_x" value="$(arg x)"/>-->
+    <!--    <arg name="initial_pose_y" value="$(arg y)"/>-->
+    <!--    <arg name="initial_pose_a" value="$(arg yaw)"/>-->
+    <!--    <arg name="scan_topic" value="/front/scan"/>-->
+    <!--</include>-->
+
+    <!-- Launch the mapping functionality if needed -->
+    <group if="$(arg mapping)">
+        <include file="$(find cr2_control)/launch/cr2_mapping.launch" />  
+    </group>
+    
+    
 
     <!-- Run the map server -->
     <!--<arg name="map_file" default="$(find aws-robomaker-hospital-world)/maps/005/map.yaml"/>-->
     <!--<node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)" />-->
 
-    
-    <!--<include file="$(find cr2_navigation)/launch/gmapping_demo.launch">-->
-    <!--    <arg name="simulation" default="true"/>-->
-    <!--</include>-->
 
 </launch>

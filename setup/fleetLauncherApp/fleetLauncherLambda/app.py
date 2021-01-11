@@ -134,6 +134,15 @@ def lambda_handler(event, context):
     desc_result = robomaker.describe_simulation_job( job = server_job_response['arn'] )
     private_ip = desc_result['networkInterface']['privateIpAddress']
 
+  # skip simulation batch job creation of we don't have other robots in
+  if len(event['robots']) == 0:
+    return {
+    'statusCode': 200,
+    'body': json.dumps({
+            'simulation_job': server_job_response['arn']
+        })
+    }
+
   # Launch multiple robot batches.
   batch_job_requests = []
   client_app_params = {}
@@ -143,14 +152,6 @@ def lambda_handler(event, context):
     client_job_params[robot['name']] = deepcopy(sim_job_params)
     client_job_params[robot['name']]['simulationApplications'].append(client_app_params[robot['name']])
     batch_job_requests.append(client_job_params[robot['name']])
-
-  if len(batch_job_requests) == 0:
-    return {
-    'statusCode': 200,
-    'body': json.dumps({
-            'simulation_job': server_job_response['arn']
-        })
-    }
 
   response = robomaker.start_simulation_job_batch(
         batchPolicy={
@@ -231,6 +232,9 @@ if __name__ == "__main__":
       print("Cloudformation stack not found. Using event.json values or environment variables for AWS infrastructure configuration.")
   else:
     print("No cloudformation defined. Using event.json values or environment variables for AWS infrastructure configuration.")
+  
+  # If we want to send data to s3 we need to assign public IP for VNC config
+  sim_job_params["vpcConfig"]["assignPublicIp"] = True
     
   print("Starting handler")
   res = lambda_handler(event, {})

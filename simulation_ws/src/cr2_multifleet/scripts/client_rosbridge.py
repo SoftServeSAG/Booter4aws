@@ -32,7 +32,6 @@ import tf
 from tf.transformations import euler_from_quaternion
 from gazebo_msgs.msg import ModelStates
 
-
 class SendData:
     def __init__(self):
         self.data_to_rosbridge = {}

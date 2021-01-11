@@ -1,14 +1,8 @@
 <launch>
-    <include file="$(find cr2_control)/launch/cr2.launch"/>
     
     <include file="$(find cr2_navigation)/launch/include/gmapping.launch">
         <arg name="scan_topic" value="/front/scan"/>
     </include>
-    
-    <include file="$(find cr2_navigation)/launch/include/move_base.launch" />    
-    
-    <include file="$(find cr2_navigation)/launch/include/ekf.launch" />       
-    
     
     <node pkg="explore_lite" type="explore" respawn="false" name="explore" output="screen">
       <param name="robot_base_frame" value="base_link"/>
