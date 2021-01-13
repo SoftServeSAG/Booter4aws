@@ -18,8 +18,7 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   rospy
   std_msgs
-  gazebo_ros
-  gazebo)
+  gazebo_ros)
 
 
 link_directories(${GAZEBO_LIBRARY_DIRS})
