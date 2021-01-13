@@ -17,7 +17,6 @@
     <depend>tf</depend>
     <depend>urdf</depend>
     <depend>rospy_message_converter</depend>
-    
 
     <exec_depend>interactive_marker_twist_server</exec_depend>
     <exec_depend>joint_state_controller</exec_depend>
@@ -33,7 +32,6 @@
     <build_depend>rospy</build_depend>
     <build_depend>std_msgs</build_depend>
     <build_depend>gazebo_ros</build_depend>
-    <build_depend>gazebo</build_depend>
     <build_export_depend>geometry_msgs</build_export_depend>
     <build_export_depend>roscpp</build_export_depend>
     <build_export_depend>rospy</build_export_depend>
@@ -45,7 +43,6 @@
     <exec_depend>rospy</exec_depend>
     <exec_depend>std_msgs</exec_depend>
     <exec_depend>gazebo_ros</exec_depend>
-    <exec_depend>gazebo</exec_depend>
     <exec_depend>roslibpy-pip</exec_depend>
     <exec_depend>rosbridge_server</exec_depend>
     <exec_depend>rosbridge_suite</exec_depend>
