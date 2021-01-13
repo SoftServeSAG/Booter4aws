@@ -1,4 +1,4 @@
 roslibpy-pip:
   ubuntu:
-    pip:
+    pip3:
       packages: [roslibpy]
