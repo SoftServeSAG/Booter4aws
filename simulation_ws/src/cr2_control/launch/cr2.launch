@@ -18,7 +18,12 @@
     <arg name="ROSBRIDGE_STATE" value="$(env ROSBRIDGE_STATE)" />
     <param name="ROSBRIDGE_STATE" value="$(env ROSBRIDGE_STATE)"/>
     <param name="ROSBRIDGE_IP" value="$(env ROSBRIDGE_IP)" />
+    
     <arg name="mapping" value="$(optenv MAPPING false)" />
+    <arg name="s3_bucket" value= "$(optenv S3_BUCKET)" />
+    <arg name="robot_monitoring" value= "$(optenv ROBOT_MONITORING false)" />
+    <arg name="robot_testing" value= "$(optenv ROBOT_TESTING false)" />
+    
 
     <param name="use_custom_move_object_gazebo_plugin" value="$(optenv USE_CUSTOM_MOVE_OBJECT_GAZEBO_PLUGIN false)" />
 
@@ -56,18 +61,23 @@
     <include file="$(find aws_robomaker_hospital_world)/launch/hospital.launch" >
         <arg name="gui" default="$(arg gui)" />
     </include>
+
+    <!-- Run the map server -->
+    <arg name="map_file" default="$(find cr2_navigation)/maps/hospital.yaml"/>
+    <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)" />
+
     
     <!-- Launch navigation stack -->
     <include file="$(find cr2_navigation)/launch/include/move_base.launch" />    
     <include file="$(find cr2_navigation)/launch/include/ekf.launch" />     
 
     <!-- Launch amcl package -->
-    <!--<include file="$(find cr2_navigation)/launch/include/amcl.launch">  -->
-    <!--    <arg name="initial_pose_x" value="$(arg x)"/>-->
-    <!--    <arg name="initial_pose_y" value="$(arg y)"/>-->
-    <!--    <arg name="initial_pose_a" value="$(arg yaw)"/>-->
-    <!--    <arg name="scan_topic" value="/front/scan"/>-->
-    <!--</include>-->
+    <include file="$(find cr2_navigation)/launch/include/amcl.launch">  
+        <arg name="initial_pose_x" value="$(arg x)"/>
+        <arg name="initial_pose_y" value="$(arg y)"/>
+        <arg name="initial_pose_a" value="$(arg yaw)"/>
+        <arg name="scan_topic" value="/front/scan"/>
+    </include>
 
     <!-- Launch the mapping functionality if needed -->
     <group if="$(arg mapping)">
@@ -75,10 +85,21 @@
     </group>
     
     
+    <!-- if bucket was provided laucnh s3 file uploader -->
+    <group if="$(eval s3_bucket != '')">
+        <include file="$(find aws_s3_uploader)/launch/s3_file_uploader.launch">
+            <arg name="s3_bucket" value="$(arg s3_bucket)" />
+        </include>         
+    </group>
+    
+    <!-- Launch the robot_monitoring if needed -->
+    <group if="$(arg robot_monitoring)">
+        <include file="$(find robot_monitoring)/launch/monitoring.launch" />  
+    </group>
 
-    <!-- Run the map server -->
-    <!--<arg name="map_file" default="$(find aws-robomaker-hospital-world)/maps/005/map.yaml"/>-->
-    <!--<node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)" />-->
-
+        <!-- Launch the robot_monitoring if needed -->
+    <group if="$(arg robot_testing)">
+        <include file="$(find cr2_hospital_tests)/launch/navigation_test.launch" />  
+    </group>
 
 </launch>

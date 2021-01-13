@@ -173,7 +173,6 @@ Resources:
                         - ec2.amazonaws.com
                     Action:
                         - sts:AssumeRole
-
             Policies:
                 - 
                     PolicyName: !Sub robomaker-multi-robot-fleet-simulation-inline-policy-${AWS::Region}
@@ -201,13 +200,14 @@ Resources:
                             - logs:DescribeLogStreams
                         - 
                             Effect: Allow
-                            Resource:
-                            - !Join ['', ['arn:aws:robomaker:::simulation-job*']]
                             Action:
-                            - robomaker:UntagResource
-                            - robomaker:ListTagsForResource
-                            - robomaker:CancelSimulationJob
-                            - robomaker:TagResource
+                                - robomaker:UntagResource
+                                - robomaker:ListTagsForResource
+                                - robomaker:CancelSimulationJob
+                                - robomaker:TagResource
+                            Resource:
+                            - '*'    
+   #                         - !Join ['', ['arn:aws:robomaker:::simulation-job*']]
 Outputs: 
 
     VPC: 

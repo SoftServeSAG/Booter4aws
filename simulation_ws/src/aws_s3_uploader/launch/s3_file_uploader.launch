@@ -1,7 +1,7 @@
 <launch>
     <!-- If a node config file argument is provided by the caller we will load it instead of the example config -->
     <arg name="node_config_file" default="$(find aws_s3_uploader)/config/node_sample_configuration.yaml" />
-    <arg name="s3_bucket" default="yfedi-test-bucket"/>
+    <arg name="s3_bucket" default=""/>
     <arg name="output" default="screen"/>
   
     <node name="s3_file_uploader" pkg="s3_file_uploader" type="s3_file_uploader" output="$(arg output)">

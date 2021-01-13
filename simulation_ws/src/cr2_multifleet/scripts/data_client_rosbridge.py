@@ -60,7 +60,7 @@ class SendData:
 
 
     def init_rosbridge_talkers(self):
-        self.laser_scan_talker = roslibpy.Topic(self.client, 'client_data', 'std_msgs/String')
+        self.roslibpy_talker = roslibpy.Topic(self.client, 'client_data', 'std_msgs/String')
         
     def data_callback(self, msg):
         rospy.logdebug("Data received: %s", msg)
@@ -69,7 +69,7 @@ class SendData:
         self.data_to_rosbridge['payload'] = json_message_converter.convert_ros_message_to_json(msg)
         
         # publish message over rosbridge
-        self.laser_scan_talker.publish(roslibpy.Message( {'data': json.dumps(self.data_to_rosbridge)} ))
+        self.roslibpy_talker.publish(roslibpy.Message( {'data': json.dumps(self.data_to_rosbridge)} ))
 
     def main(self):
         rate = rospy.Rate(10.0)
