@@ -7,19 +7,15 @@ include_directories(${GAZEBO_INCLUDE_DIRS})
 list(APPEND CMAKE_CXX_FLAGS "${GAZEBO_CXX_FLAGS}")
 
 find_package(catkin REQUIRED COMPONENTS
-  controller_interface
-  urdf
-  realtime_tools
-  tf
-  nav_msgs
-  sensor_msgs
-  roslaunch
   geometry_msgs
   roscpp
   rospy
   std_msgs
-  gazebo_ros)
+  gazebo_ros
+  )
 
+# Depend on system install of Gazebo
+find_package(gazebo REQUIRED)
 
 link_directories(${GAZEBO_LIBRARY_DIRS})
 include_directories(${catkin_INCLUDE_DIRS} ${GAZEBO_INCLUDE_DIRS})
@@ -29,9 +25,6 @@ target_link_libraries(move_object_plugin ${catkin_LIBRARIES} ${GAZEBO_LIBRARIES}
 
 catkin_package(
   CATKIN_DEPENDS
-    controller_interface
-    realtime_tools
-    sensor_msgs
     roscpp
     gazebo_ros
 )
