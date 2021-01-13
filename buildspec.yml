@@ -7,11 +7,13 @@ env:
     ROBOT_WS: robot_ws
     SIMULATION_WS: simulation_ws
     ROS_VERSION: melodic
+    BASE_DIR: `pwd`
 phases: 
   install: 
     commands: 
        - apt-get update
        - apt-get install -y python3-pip python3-apt apt-transport-https ca-certificates wget
+       - echo "yaml file:///codebuild/output/src529192044/src/setup/custom_dependencies.yaml" | sudo tee -a /etc/ros/rosdep/sources.list.d/21-customdependencies.list
        - wget http://packages.osrfoundation.org/gazebo.key 
        - apt-key add gazebo.key
        - echo "deb http://packages.osrfoundation.org/gazebo/ubuntu-stable `lsb_release -cs` main" > /etc/apt/sources.list.d/gazebo-stable.list
@@ -42,5 +44,5 @@ phases:
 cache:
   paths:
     - '$CACHE_DIR/**/*'
-    - '$ROBOT_WS/src/deps/**/*'
+    # - '$ROBOT_WS/src/deps/**/*'
     - '$SIMULATION_WS/src/deps/**/*'

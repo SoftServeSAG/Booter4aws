@@ -1,6 +1,11 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(cr2_multifleet)
 
+cmake_policy(SET CMP0054 NEW)
+
+include_directories(${GAZEBO_INCLUDE_DIRS})
+list(APPEND CMAKE_CXX_FLAGS "${GAZEBO_CXX_FLAGS}")
+
 find_package(catkin REQUIRED COMPONENTS
   controller_interface
   urdf
@@ -15,9 +20,6 @@ find_package(catkin REQUIRED COMPONENTS
   std_msgs
   gazebo_ros
   gazebo)
-
-include_directories(${GAZEBO_INCLUDE_DIRS})
-list(APPEND CMAKE_CXX_FLAGS "${GAZEBO_CXX_FLAGS}")
 
 
 link_directories(${GAZEBO_LIBRARY_DIRS})
