@@ -7,7 +7,6 @@ env:
     ROBOT_WS: robot_ws
     SIMULATION_WS: simulation_ws
     ROS_VERSION: melodic
-    BASE_DIR: `pwd`
 phases: 
   install: 
     commands: 
