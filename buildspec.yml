@@ -17,7 +17,7 @@ phases:
        - apt-key add gazebo.key
        - echo "deb http://packages.osrfoundation.org/gazebo/ubuntu-stable `lsb_release -cs` main" > /etc/apt/sources.list.d/gazebo-stable.list
        - apt-get update
-       - apt-get install -y gazebo9-dev
+       - apt-get install -y libgazebo9-dev
        - pip3 install pip --upgrade
        - pip3 install -U setuptools pip
        - pip3 install colcon-ros-bundle
