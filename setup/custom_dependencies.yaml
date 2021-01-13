@@ -1,4 +1,5 @@
 roslibpy-pip:
   ubuntu:
-    pip3:
-      packages: [roslibpy]
+    bionic:
+      pip3:
+        packages: [roslibpy]
