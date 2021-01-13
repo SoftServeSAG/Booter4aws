@@ -1,7 +1,7 @@
 version: 0.2 
 env:
   variables:
-    S3_BUCKET: yfedi-robomaker-fleet-robomakerbasics3bucket-1m6zea4ytvzm9
+    S3_BUCKET: yfedi-test-bucket
     APP_NAME: cr2_cicd
     CACHE_DIR: cache
     ROBOT_WS: robot_ws
