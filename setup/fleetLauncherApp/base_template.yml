@@ -1,5 +1,4 @@
 AWSTemplateFormatVersion: '2010-09-09'
-
 Description: 
 
     This base template deploys the backend stack for a RoboMaker application. 
@@ -207,7 +206,7 @@ Resources:
                                 - robomaker:TagResource
                             Resource:
                             - '*'    
-   #                         - !Join ['', ['arn:aws:robomaker:::simulation-job*']]
+    #                         - !Join ['', ['arn:aws:robomaker:::simulation-job*']]
 Outputs: 
 
     VPC: 
