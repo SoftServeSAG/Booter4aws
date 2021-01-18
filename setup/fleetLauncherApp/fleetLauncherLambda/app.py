@@ -201,14 +201,18 @@ if __name__ == "__main__":
   except Exception as e:
     print(e)
 
-
-  # Get Sample Event
-  event_path = "%s/event.json" % sys.path[0]
+  if sys.argv[2]:
+    print("Using config file {}".format(sys.argv[2]))
+    event_path = sys.argv[2]
+  else:
+    print("Using default config file")
+    # Get Sample Event
+    event_path = "%s/event.json" % sys.path[0]
 
   with open(event_path) as f:
     event = json.load(f)
   
-  if (len(sys.argv)==2):
+  if (len(sys.argv)>1):
     cfn = boto3.client('cloudformation')
     response = cfn.describe_stacks(
         StackName=sys.argv[1]

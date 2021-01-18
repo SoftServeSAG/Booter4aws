@@ -25,7 +25,17 @@ It downloads all needed ROS dependencies and builds all ROS packages
 
 
 ## Run CR2 Single robot
-TODO
+To run single Catering Robot you need to run following command:
+```
+./setup/aws_setup.bash 
+```
+
+
+## Package description
+#### cr2_control
+Package for launching cr2 robot
+#### robot_monitoring
+Package for publishing different metrics(e.g. distance to the goal) to ros topics.
 
 
 
@@ -47,7 +57,7 @@ TODO: describe stack creation with lambdas()
 
 
 
-##Cleanup
+## Cleanup
 
 To delete the sample application and the bucket that you created, use the AWS CLI.
 
