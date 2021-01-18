@@ -99,11 +99,11 @@ Resources:
                 Version: !Ref SimulationApplicationSimulationSoftwareSuiteVersion
             Sources: 
               - Architecture: X86_64
-                S3Bucket: !Ref RoboMakerBasicS3Bucket
-                S3Key: !Ref SimulationApplicationS3Key
+                S3Bucket: !Ref LambdaS3Bucket
+                S3Key: "bundles/x86/simulationApp.tar"
             Tags:
-                "Name" : "LaunchSource"
-                "Type" : "MultiRobotServerlessLaunchApp"  
+                "Name" : "SimulationApplication"
+                "Type" : "CICD_Auto_Generate"  
     InternetGateway:
         Type: AWS::EC2::InternetGateway
         Properties:
@@ -196,6 +196,8 @@ Resources:
                             Resource: 
                             - !Join ['',['arn:aws:s3:::',!Ref RoboMakerBasicS3Bucket]]
                             - !Join ['',['arn:aws:s3:::',!Ref RoboMakerBasicS3Bucket,'/*' ]]
+                            - !Join ['',['arn:aws:s3:::',"yfedi-test-bucket"]]
+                            - !Join ['',['arn:aws:s3:::','yfedi-test-bucket/*']]
                             Action:
                             - s3:List*
                             - s3:Get*
@@ -269,6 +271,7 @@ Resources:
                         - robomaker:StartSimulationJobBatch
                         - robomaker:DescribeSimulationJob
                         - robomaker:ListSimulationJobBatches
+                        - robomaker:TagResource
                         - s3:GetAccountPublicAccessBlock
                         - codepipeline:PutApprovalResult
                         - s3:ListAllMyBuckets

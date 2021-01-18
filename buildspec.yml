@@ -23,7 +23,6 @@ phases:
        - pip3 install -U setuptools pip
        - pip3 install colcon-ros-bundle
        - pip3 install awscli
-       - pip3 install roslibpy
   pre_build:
     commands:
       - . /opt/ros/$ROS_VERSION/setup.sh

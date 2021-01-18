@@ -16,15 +16,15 @@ sudo pip3 install boto3==1.14.28 > /dev/null
 
 
 cd $LAUNCHER_APP_DIR/checkStatus/
-zip $LAUNCHER_APP_DIR/function.zip $LAUNCHER_APP_DIR/checkStatus/*
+zip $LAUNCHER_APP_DIR/function.zip ./*
 aws s3 mv $LAUNCHER_APP_DIR/function.zip s3://$S3_BUCKET/lambdas/checkStatus/
 
 cd $LAUNCHER_APP_DIR/errorLaunchingSimulations/
-zip $LAUNCHER_APP_DIR/function.zip $LAUNCHER_APP_DIR/errorLaunchingSimulations/*
+zip $LAUNCHER_APP_DIR/function.zip ./*
 aws s3 mv $LAUNCHER_APP_DIR/function.zip s3://$S3_BUCKET/lambdas/errorLaunchingSimulations/
 
 cd $LAUNCHER_APP_DIR/processAndLaunchBatchSimulations/
-zip $LAUNCHER_APP_DIR/function.zip $LAUNCHER_APP_DIR/processAndLaunchBatchSimulations/*
+zip $LAUNCHER_APP_DIR/function.zip ./*
 aws s3 mv $LAUNCHER_APP_DIR/function.zip s3://$S3_BUCKET/lambdas/processAndLaunchBatchSimulations/
 
 cd $LAUNCHER_APP_DIR/sendSimSummary/
@@ -32,13 +32,13 @@ zip $LAUNCHER_APP_DIR/function.zip ./*
 aws s3 mv $LAUNCHER_APP_DIR/function.zip s3://$S3_BUCKET/lambdas/sendSimSummary/
 
 cd $LAUNCHER_APP_DIR/triggerStepFunctions/
-zip $LAUNCHER_APP_DIR/function.zip $LAUNCHER_APP_DIR/triggerStepFunctions/*
+zip $LAUNCHER_APP_DIR/function.zip ./*
 aws s3 mv $LAUNCHER_APP_DIR/function.zip s3://$S3_BUCKET/lambdas/triggerStepFunctions/
 
 # Setup AWS resources for the application
 if [ ! -f "$CURRENT_STACK" ]; then
   # Deploy base stack (NOTE: This will NOT deploy the SAM-based Lambda function. To do that, follow the instructions in the README.)
-  aws cloudformation deploy --template-file $LAUNCHER_APP_DIR/robomaker_template_with_lambdas.yml --stack-name $STACK_NAME --capabilities CAPABILITY_NAMED_IAM --parameter-overrides SimulationApplicationS3Key=$S3_OUTPUT_KEY
+  aws cloudformation deploy --template-file $LAUNCHER_APP_DIR/robomaker_cloudformation_with_lambdas.yml --stack-name $STACK_NAME --capabilities CAPABILITY_NAMED_IAM --parameter-overrides SimulationApplicationS3Key=$S3_OUTPUT_KEY
   aws cloudformation wait stack-create-complete --stack-name $STACK_NAME && echo "stackname=$STACK_NAME" > .current-aws-stack
 fi
 

@@ -38,10 +38,9 @@
 			"maxJobDurationInSeconds": 600,
             "simulationApplications":[
                {
-                  "name":"SERVER",
                   "applicationVersion": "$LATEST",
                   "launchConfig":{
-                     "launchFile":"cr2.launch",
+                     "launchFile":"cr2_single.launch",
                      "packageName":"cr2_control"
                   }
                }
