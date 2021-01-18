@@ -12,7 +12,7 @@
             "ROBOT_MONITORING":"true",
             "ROBOT_TESTING":"true"
 	      }
-	    }
+	    },
 	    "Test2": {
 	      "simEnvironmentVariables": {
 	       "START_X": "1",
