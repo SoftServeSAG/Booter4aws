@@ -1,10 +1,8 @@
 {
-    "robots": [
-    ],
-    "server": {
-        "name": "SERVER",
-        "environmentVariables": {
-            "START_X": "0",
+    "scenarios": {
+	    "Test1": {
+	      "simEnvironmentVariables": {
+	       "START_X": "0",
             "START_Y": "0",
             "START_Z": "0.0",
             "START_YAW": "0",
@@ -13,9 +11,40 @@
             "MAPPING":"false",
             "ROBOT_MONITORING":"true",
             "ROBOT_TESTING":"true"
-        },
-        "packageName": "cr2_control",
-        "launchFile": "cr2.launch"
-      }
+	      }
+	    }
+	    "Test2": {
+	      "simEnvironmentVariables": {
+	       "START_X": "1",
+            "START_Y": "1",
+            "START_Z": "0.0",
+            "START_YAW": "1",
+            "USE_CUSTOM_MOVE_OBJECT_GAZEBO_PLUGIN":"true",
+            "S3_BUCKET": "yfedi-robomaker-fleet-robomakerbasics3bucket-1m6zea4ytvzm9",
+            "MAPPING":"false",
+            "ROBOT_MONITORING":"true",
+            "ROBOT_TESTING":"true"
+	      }
+	    }
+	    
+	    
+	},
+	
+	"simulations": [{
+        "scenarios": [
+			"Test1",
+	        "Test2"
+	      ],
+        "params": {
+            "simulationApplications": [{
+                "name": "SERVER", 
+				"launchConfig": {
+					"launchFile": "cr2.launch",
+					"packageName": "cr2_control"
+				}
+			}],
+        }    
 
-  }
+
+	}]
+}
