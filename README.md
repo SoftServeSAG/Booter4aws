@@ -50,6 +50,53 @@ To run fleet on AWS Robomaker
 If AWS stack was not created before, script will create it.
 
 
+### Typical config to launch fleet 
+
+```json
+{
+    "robots": [
+        {
+        "name": "robot1",
+        "environmentVariables": {
+            "START_X": "2",
+            "START_Y": "2",
+            "START_Z": "0.0",
+            "START_YAW": "0",
+            "USE_CUSTOM_MOVE_OBJECT_GAZEBO_PLUGIN":"true",
+            "MAPPING":"false",
+            "ROBOT_MONITORING":"true",
+            "ROBOT_TESTING":"false"
+        },
+        "packageName": "cr2_control",
+        "launchFile": "cr2_fleet.launch"
+        }
+      
+    ],
+    "server": {
+        "name": "SERVER",
+        "environmentVariables": {
+            "START_X": "0",
+            "START_Y": "1",
+            "START_Z": "0.0",
+            "START_YAW": "0",
+            "USE_CUSTOM_MOVE_OBJECT_GAZEBO_PLUGIN":"true",
+            "MAPPING":"false",
+            "ROBOT_MONITORING":"true",
+            "ROBOT_TESTING":"false"
+        },
+        "packageName": "cr2_control",
+        "launchFile": "cr2_fleet.launch"
+      }
+
+  }
+```
+
+There are several environment variables to configure simulation:
+1. MAPPING - enable mapping using gmapping and explore_lite, default - false
+2. ROBOT_MONITORING - enable robot monitoring, default - false 
+3. ROBOT_TESTING - run tests (on current version simple navifation test), default - false
+
+
 ## CICD
 This repository is ready for AWS CICD using AWS Pipelines
 See details here https://github.com/aws-samples/aws-robomaker-simulation-launcher
@@ -64,4 +111,5 @@ TODO: describe stack creation with lambdas()
 To delete the sample application and the bucket that you created, use the AWS CLI.
 
 aws cloudformation delete-stack --stack-name cr2-robomaker
+aws cloudformation delete-stack --stack-name cr2-robomaker-cicd
 aws s3 rb s3://BUCKET_NAME

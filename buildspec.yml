@@ -4,7 +4,7 @@ env:
     S3_BUCKET: yfedi-test-bucket
     APP_NAME: cr2_cicd
     CACHE_DIR: cache
-    ROBOT_WS: robot_ws
+#    ROBOT_WS: robot_ws
     SIMULATION_WS: simulation_ws
     ROS_VERSION: melodic
 phases: 

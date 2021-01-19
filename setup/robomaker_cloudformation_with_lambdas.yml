@@ -69,10 +69,10 @@ Parameters:
         Type: String
         Default: "scenarios.json"
  
-    LambdaS3Bucket:
-        Description: Please enter the bucketname for lambdas
+    CICDS3Bucket:
+        Description: Please enter the bucketname
         Type: String
-        Default: yfedi-test-bucket
+        Default: ""
         
 Resources:
 
@@ -99,7 +99,7 @@ Resources:
                 Version: !Ref SimulationApplicationSimulationSoftwareSuiteVersion
             Sources: 
               - Architecture: X86_64
-                S3Bucket: !Ref LambdaS3Bucket
+                S3Bucket: !Ref CICDS3Bucket
                 S3Key: "bundles/x86/simulationApp.tar"
             Tags:
                 "Name" : "SimulationApplication"
@@ -196,8 +196,8 @@ Resources:
                             Resource: 
                             - !Join ['',['arn:aws:s3:::',!Ref RoboMakerBasicS3Bucket]]
                             - !Join ['',['arn:aws:s3:::',!Ref RoboMakerBasicS3Bucket,'/*' ]]
-                            - !Join ['',['arn:aws:s3:::',"yfedi-test-bucket"]]
-                            - !Join ['',['arn:aws:s3:::','yfedi-test-bucket/*']]
+                            - !Join ['',['arn:aws:s3:::',!Ref CICDS3Bucket]]
+                            - !Join ['',['arn:aws:s3:::',!Ref CICDS3Bucket, '/*']]
                             Action:
                             - s3:List*
                             - s3:Get*
@@ -294,12 +294,12 @@ Resources:
                         - s3:*
                         Resource:
                         - Fn::GetAtt: RoboMakerBasicS3Bucket.Arn
-            RoleName: !Sub yfedi-step-functions-batch-role-${AWS::Region}
+            RoleName: !Sub cr2-step-functions-batch-role-${AWS::Region}
     ProcessAndLaunchBatchSimulationsFunction:
         Type: AWS::Serverless::Function 
         Properties:
             CodeUri:
-                Bucket: !Ref LambdaS3Bucket
+                Bucket: !Ref CICDS3Bucket
                 Key: lambdas/processAndLaunchBatchSimulations/function.zip
             Handler: app.lambda_handler
             Runtime: python3.8
@@ -317,7 +317,7 @@ Resources:
         Type: AWS::Serverless::Function 
         Properties:
             CodeUri:
-                Bucket: !Ref LambdaS3Bucket
+                Bucket: !Ref CICDS3Bucket
                 Key: lambdas/checkStatus/function.zip
             Handler: app.lambda_handler
             Runtime: python3.8
@@ -327,7 +327,7 @@ Resources:
         Type: AWS::Serverless::Function 
         Properties:
             CodeUri:
-                Bucket: !Ref LambdaS3Bucket
+                Bucket: !Ref CICDS3Bucket
                 Key: lambdas/sendSimSummary/function.zip
             Handler: app.lambda_handler
             Runtime: python3.8
@@ -337,7 +337,7 @@ Resources:
         Type: AWS::Serverless::Function 
         Properties:
             CodeUri:
-                Bucket: !Ref LambdaS3Bucket
+                Bucket: !Ref CICDS3Bucket
                 Key: lambdas/errorLaunchingSimulations/function.zip
             Handler: app.lambda_handler
             Runtime: python3.8
@@ -348,7 +348,7 @@ Resources:
         Type: AWS::Serverless::Function 
         Properties:
             CodeUri:
-                Bucket: !Ref LambdaS3Bucket
+                Bucket: !Ref CICDS3Bucket
                 Key: lambdas/triggerStepFunctions/function.zip
             Handler: app.lambda_handler
             Runtime: python3.8

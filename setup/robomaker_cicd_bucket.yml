@@ -1,0 +1,12 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 
+
+    This base template deploys the bucket stack for a RoboMaker application. 
+Resources:
+    RoboMakerCICDS3Bucket:
+        Type: AWS::S3::Bucket
+Outputs: 
+    RoboMakerCICDS3Bucket:
+        Description: The S3 bucket used to store your AWS RoboMaker assets.
+        Value: !Ref RoboMakerCICDS3Bucket
+    
