@@ -113,7 +113,7 @@ This script will create two stacks: first contains only bucket for storing bundl
 ```
 3. All further instructions how to configure AWS CICD Pipeline you can find here https://github.com/aws-samples/aws-robomaker-simulation-launcher
 
-Note! Build role must have next access to the S3Bucket
+Note! Build role must have next access to the S3Bucket or use one created by cloudformation(name contains CodeBuildRole)
 ```
         {
             "Effect": "Allow",

@@ -60,6 +60,6 @@ aws s3 mv $LAUNCHER_APP_DIR/function.zip s3://$s3Bucket/lambdas/triggerStepFunct
 # Setup AWS resources for the application
 if [ ! -f "$CURRENT_STACK" ]; then
   # Deploy base stack (NOTE: This will NOT deploy the SAM-based Lambda function. To do that, follow the instructions in the README.)
-  aws cloudformation deploy --template-file $LAUNCHER_APP_DIR/robomaker_cloudformation_with_lambdas.yml --stack-name $STACK_NAME --capabilities CAPABILITY_NAMED_IAM --parameter-overrides SimulationApplicationS3Key=$S3_OUTPUT_KEY CICDS3Bucket=$s3Bucket
+  aws cloudformation deploy --template-file $LAUNCHER_APP_DIR/robomaker_cicd_template.yml --stack-name $STACK_NAME --capabilities CAPABILITY_NAMED_IAM --parameter-overrides SimulationApplicationS3Key=$S3_OUTPUT_KEY CICDS3Bucket=$s3Bucket
   aws cloudformation wait stack-create-complete --stack-name $STACK_NAME && echo "stackname=$STACK_NAME" > .current-aws-stack
 fi
