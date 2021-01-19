@@ -12,11 +12,39 @@
     
     <arg name="robot_namespace" default="/"/>
 
+    <param name="ROBOT_NAME" value="$(env ROBOT_NAME)"/>
+    <param name="ROBOT_SDF_FILE" value="$(find cr2_multifleet)/static_models_w_plugin/cr2/cr2.sdf"/>
+    
+    <arg name="ROSBRIDGE_STATE" value="$(env ROSBRIDGE_STATE)" />
+    <param name="ROSBRIDGE_STATE" value="$(env ROSBRIDGE_STATE)"/>
+    <param name="ROSBRIDGE_IP" value="$(env ROSBRIDGE_IP)" />
+    
     <arg name="mapping" value="$(optenv MAPPING false)" />
     <arg name="s3_bucket" value= "$(optenv S3_BUCKET)" />
     <arg name="robot_monitoring" value= "$(optenv ROBOT_MONITORING false)" />
     <arg name="robot_testing" value= "$(optenv ROBOT_TESTING false)" />
 
+    <param name="use_custom_move_object_gazebo_plugin" value="$(optenv USE_CUSTOM_MOVE_OBJECT_GAZEBO_PLUGIN false)" />
+
+
+    <!-- Launch rosbridge if this is server -->
+    <group if="$(eval ROSBRIDGE_STATE=='SERVER')" >
+        <param name="ROSBRIDGE_IP" value="localhost"/>
+        <include file="$(find rosbridge_server)/launch/rosbridge_websocket.launch" />
+    </group>
+    
+        <!-- Launch robot_fleet specific nodes -->
+    <param name="MODEL_NAME" value="$(arg model_name)"/>
+    <node name="gazebo_model_mover" pkg="cr2_multifleet" type="gazebo_model_mover.py" /> 
+    <node name="client_rosbridge" pkg="cr2_multifleet" type="client_rosbridge.py" />
+    
+    <node name="data_client_rosbridge" pkg="cr2_multifleet" type="data_client_rosbridge.py">
+        <!-- value must contain '/' on the front -->
+        <param name="topic" value="/front/scan"/> 
+        <param name="message_type" value="sensor_msgs/LaserScan"/>
+    </node>
+    
+    <node name="data_server_rosbridge" pkg="cr2_multifleet" type="data_server_rosbridge.py" />
 
     <!-- Launch cr2 control -->
     <include file="$(find cr2_control)/launch/control.launch"/>
@@ -28,6 +56,7 @@
               -y $(arg y)
               -z $(arg z)
               -Y $(arg yaw)"/>
+
 
     <!-- Launch the world -->
     <include file="$(find aws_robomaker_hospital_world)/launch/hospital.launch" >

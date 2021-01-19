@@ -1,0 +1,66 @@
+{
+    "robots": [
+        {
+        "name": "robot1",
+        "environmentVariables": {
+            "START_X": "-1",
+            "START_Y": "1",
+            "START_Z": "0.0",
+            "START_YAW": "1.56",
+            "USE_CUSTOM_MOVE_OBJECT_GAZEBO_PLUGIN":"true",
+            "MAPPING":"false",
+            "ROBOT_MONITORING":"true",
+            "ROBOT_TESTING":"false"
+        },
+        "packageName": "cr2_control",
+        "launchFile": "cr2_fleet.launch"
+        },
+        {
+        "name": "robot2",
+        "environmentVariables": {
+            "START_X": "1",
+            "START_Y": "1",
+            "START_Z": "0.0",
+            "START_YAW": "1",
+            "USE_CUSTOM_MOVE_OBJECT_GAZEBO_PLUGIN":"true",
+            "MAPPING":"false",
+            "ROBOT_MONITORING":"true",
+            "ROBOT_TESTING":"false"
+        },
+        "packageName": "cr2_control",
+        "launchFile": "cr2_fleet.launch"
+        },
+        {
+        "name": "robot3",
+        "environmentVariables": {
+            "START_X": "2",
+            "START_Y": "2",
+            "START_Z": "0.0",
+            "START_YAW": "0",
+            "USE_CUSTOM_MOVE_OBJECT_GAZEBO_PLUGIN":"true",
+            "MAPPING":"false",
+            "ROBOT_MONITORING":"true",
+            "ROBOT_TESTING":"false"
+        },
+        "packageName": "cr2_control",
+        "launchFile": "cr2_fleet.launch"
+        }
+      
+    ],
+    "server": {
+        "name": "SERVER",
+        "environmentVariables": {
+            "START_X": "0",
+            "START_Y": "1",
+            "START_Z": "0.0",
+            "START_YAW": "0",
+            "USE_CUSTOM_MOVE_OBJECT_GAZEBO_PLUGIN":"true",
+            "MAPPING":"false",
+            "ROBOT_MONITORING":"true",
+            "ROBOT_TESTING":"false"
+        },
+        "packageName": "cr2_control",
+        "launchFile": "cr2_fleet.launch"
+      }
+
+  }

@@ -24,11 +24,6 @@ This repository is created to demonstarte CR2 robot on AWS Robomaker.
 It downloads all needed ROS dependencies and builds all ROS packages
 
 
-## Run CR2 Single robot
-To run single Catering Robot you need to run following command:
-```
-./setup/aws_setup.bash 
-```
 
 
 ## Package description
@@ -37,15 +32,22 @@ Package for launching cr2 robot
 #### robot_monitoring
 Package for publishing different metrics(e.g. distance to the goal) to ros topics.
 
-
+## Run CR2 Single robot
+To run single Catering Robot you need to run following command:
+```
+./setup/aws_setup.bash start_single_robot.json
+```
+During the first run it creates AWS infrustructure, copies bundle to the s3 bucket and runs simulation application.
 
 
 ## Run CR2 Fleet
 
 To run fleet on AWS Robomaker
+```
+./setup/aws_setup.bash start_four_robots.json 
+```
 
-
-
+If AWS stack was not created before, script will create it.
 
 
 ## CICD

@@ -12,7 +12,7 @@ phases:
     commands: 
        - apt-get update
        - apt-get install -y python3-pip python3-apt apt-transport-https ca-certificates wget
-       - echo "yaml file://$CODEBUILD_SRC_DIR/setup/custom_dependencies.yaml" | sudo tee -a /etc/ros/rosdep/sources.list.d/21-customdependencies.list
+       - echo "yaml file://$CODEBUILD_SRC_DIR/setup/custom_dependencies_cicd.yaml" | sudo tee -a /etc/ros/rosdep/sources.list.d/21-customdependencies.list
        - wget http://packages.osrfoundation.org/gazebo.key 
        - apt-key add gazebo.key
        - echo "deb http://packages.osrfoundation.org/gazebo/ubuntu-stable `lsb_release -cs` main" > /etc/apt/sources.list.d/gazebo-stable.list
