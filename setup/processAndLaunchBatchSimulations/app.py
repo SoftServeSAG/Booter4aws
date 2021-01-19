@@ -58,7 +58,7 @@ def lambda_handler(event, context):
             simulation['params']['iamRole'] = os.getenv('IAM_ROLE')
                     
         if 'vpcConfig' in simulation['params']:
-            if 'SECURITY_GROUP' in os.environ and os.getenv('SECURITY_GROUP') and "securityGroups" not in simulation['params']['vpcConfig']:
+            if 'SECURITY_GROUP' in os.environ and os.getenv('SECURITY_GROUP') and "securityGroups" in simulation['params']['vpcConfig']:
                 simulation['params']['vpcConfig']['securityGroups'].append(os.getenv('SECURITY_GROUP'))
             if not 'subnets' in simulation['params']['vpcConfig']:
                 simulation['params']['vpcConfig']['subnets'] = []

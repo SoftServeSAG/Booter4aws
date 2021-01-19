@@ -32,6 +32,7 @@ Package for launching cr2 robot
 #### robot_monitoring
 Package for publishing different metrics(e.g. distance to the goal) to ros topics.
 
+
 ## Run CR2 Single robot
 To run single Catering Robot you need to run following command:
 ```
@@ -99,17 +100,49 @@ There are several environment variables to configure simulation:
 
 ## CICD
 This repository is ready for AWS CICD using AWS Pipelines
-See details here https://github.com/aws-samples/aws-robomaker-simulation-launcher
 
-TODO: describe stack creation with lambdas()
+Steps to configure CICD:
+1. Create AWS stack
+```
+./setup/aws_setup_cicd.bash 
+```
+This script will create two stacks: first contains only bucket for storing bundles and AWS lamdas sources. The second stack creates all needed infrustructure for running simulation jobs.
+2. Update build file buildspec.yml with your S3Bucket name received in first step, so build machine will know where bundle should be located
+```
+    S3_BUCKET: <YOUR-BUCKET>
+```
+3. All further instructions how to configure AWS CICD Pipeline you can find here https://github.com/aws-samples/aws-robomaker-simulation-launcher
 
+Note! Build role must have next access to the S3Bucket
+```
+        {
+            "Effect": "Allow",
+            "Resource": [
+                "arn:aws:s3:::<YOUR-BUCKET>/*"
+            ],
+            "Action": [
+                "s3:PutObject",
+                "s3:GetObject",
+                "s3:GetObjectVersion",
+                "s3:GetBucketAcl",
+                "s3:GetBucketLocation"
+            ]
+        }
+```
 
+You can configure CICD scenarios in file "scenarios.json" 
 
 
 ## Cleanup
 
-To delete the sample application and the bucket that you created, use the AWS CLI.
+To delete the sample application use the AWS CLI.
 
-aws cloudformation delete-stack --stack-name cr2-robomaker
-aws cloudformation delete-stack --stack-name cr2-robomaker-cicd
-aws s3 rb s3://BUCKET_NAME
+For Fleet application
+```
+aws cloudformation delete-stack --stack-name r2-robomaker-fleet
+```
+For CICD
+```
+aws cloudformation delete-stack --stack-name r2-robomaker-fleet-cicd
+aws cloudformation delete-stack --stack-name r2-robomaker-fleet-cicd-bucket
+```
