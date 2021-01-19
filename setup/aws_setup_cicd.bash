@@ -14,14 +14,12 @@ CURRENT_STACK_BUCKET=.current-aws-stack-cicd-bucket
 S3_OUTPUT_KEY=cr2multirobot/bundle/output.tar
 
 
-#S3_BUCKET=yfedi-test-bucket
-
 export AWS_DEFAULT_REGION=us-east-2
 
 sudo pip3 install boto3==1.14.28 > /dev/null
 
 # Setup AWS resources for the application
-if [ ! -f "$CURRENT_STACK" ]; then
+if [ ! -f "$CURRENT_STACK_BUCKET" ]; then
   # Deploy base stack (NOTE: This will NOT deploy the SAM-based Lambda function. To do that, follow the instructions in the README.)
   aws cloudformation deploy --template-file $LAUNCHER_APP_DIR/robomaker_cicd_bucket.yml --stack-name $STACK_NAME_BUCKET --capabilities CAPABILITY_NAMED_IAM
   aws cloudformation wait stack-create-complete --stack-name $STACK_NAME_BUCKET && echo "stackname=$STACK_NAME_BUCKET" > .current-aws-stack
@@ -56,6 +54,7 @@ aws s3 mv $LAUNCHER_APP_DIR/function.zip s3://$s3Bucket/lambdas/sendSimSummary/
 cd $LAUNCHER_APP_DIR/triggerStepFunctions/
 zip $LAUNCHER_APP_DIR/function.zip ./*
 aws s3 mv $LAUNCHER_APP_DIR/function.zip s3://$s3Bucket/lambdas/triggerStepFunctions/
+
 
 # Setup AWS resources for the application
 if [ ! -f "$CURRENT_STACK" ]; then
