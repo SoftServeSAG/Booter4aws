@@ -198,7 +198,7 @@ namespace gazebo
           ros::VoidPtr(), &queue_);
 
     vel_sub_ = rosnode_->subscribe(so);
-    //odometry_pub_ = rosnode_->advertise<nav_msgs::Odometry>(odometry_topic_, 1);
+    odometry_pub_ = rosnode_->advertise<nav_msgs::Odometry>(odometry_topic_, 1);
 
     // start custom queue for diff drive
     callback_queue_thread_ =
@@ -355,7 +355,7 @@ namespace gazebo
 
 
 
-    //odometry_pub_.publish(odom_);
+    odometry_pub_.publish(odom_);
   }
 
 

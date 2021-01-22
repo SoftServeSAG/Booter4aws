@@ -21,3 +21,8 @@
     local-name: src/deps/rospy_message_converter
     uri: https://github.com/uos/rospy_message_converter.git
     version: master
+
+- git:
+    local-name: src/tests
+    uri: https://github.com/SoftServeSAG/aws_ros_tests.git
+    version: feature/move_manager
