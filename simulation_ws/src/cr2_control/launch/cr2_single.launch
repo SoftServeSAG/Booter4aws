@@ -14,7 +14,6 @@
 
     <arg name="mapping" value="$(optenv MAPPING false)" />
     <arg name="s3_bucket" value= "$(optenv S3_BUCKET)" />
-    <arg name="robot_monitoring" value= "$(optenv ROBOT_MONITORING false)" />
     <arg name="robot_testing" value= "$(optenv ROBOT_TESTING false)" />
 
 
@@ -66,12 +65,7 @@
         </include>         
     </group>
     
-    <!-- Launch the robot_monitoring if needed -->
-    <group if="$(arg robot_monitoring)">
-        <include file="$(find robot_monitoring)/launch/monitoring.launch" />  
-    </group>
-
-        <!-- Launch the robot_testing if needed -->
+    <!-- Launch the robot_testing if needed -->
     <group if="$(arg robot_testing)">
         <include file="$(find cr2_tests)/launch/navigation_test.launch" />  
     </group>

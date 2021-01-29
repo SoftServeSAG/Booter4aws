@@ -11,5 +11,6 @@
   <buildtool_depend>catkin</buildtool_depend>
 
   <depend>mp_slippage_and_motor_saturation_tests</depend>
+  <depend>mp_behaviour_tests</depend>
   
 </package>

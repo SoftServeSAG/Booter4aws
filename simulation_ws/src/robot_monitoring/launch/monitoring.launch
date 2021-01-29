@@ -1,6 +1,0 @@
-<launch>
-    
-  <!-- Publish distance to goal metric (does nothing if there isn't a planned goal) -->
-  <node pkg="robot_monitoring" type="monitor_distance_to_goal.py" name="monitor_distance_to_goal" output="screen"/>
-    
-</launch>
