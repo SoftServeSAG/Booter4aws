@@ -73,7 +73,7 @@
 
         <!-- Launch the robot_testing if needed -->
     <group if="$(arg robot_testing)">
-        <include file="$(find cr2_hospital_tests)/launch/navigation_test.launch" />  
+        <include file="$(find cr2_tests)/launch/navigation_test.launch" />  
     </group>
 
 </launch>
