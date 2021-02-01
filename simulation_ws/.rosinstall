@@ -23,6 +23,6 @@
     version: master
 
 - git:
-    local-name: src/tests
+    local-name: src/tests/aws_ros_tests
     uri: https://github.com/SoftServeSAG/aws_ros_tests.git
-    version: feature/move_manager
+    version: feature/navigation_test
