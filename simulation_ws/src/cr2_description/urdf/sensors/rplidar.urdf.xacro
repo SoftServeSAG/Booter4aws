@@ -59,7 +59,7 @@
               <range>
                 <!--TODO: figureout exact min/max for RPLIDAR A2-->
                 <min>0.3</min>
-                <max>5.0</max> <!--for this dist is configured navigator-->
+                <max>10.0</max> <!--for this dist is configured navigator-->
                 <resolution>0.01</resolution>
               </range>
               <noise>

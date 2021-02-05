@@ -17,4 +17,5 @@ static_layer:
   subscribe_to_updates: true
 
 inflation_layer:
-  inflation_radius: 0.1
+  inflation_radius: 1.75
+  cost_scaling_factor: 2.58

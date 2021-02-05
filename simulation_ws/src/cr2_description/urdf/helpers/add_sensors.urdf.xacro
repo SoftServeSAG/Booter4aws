@@ -6,7 +6,13 @@
     <xacro:include filename="$(find cr2_description)/urdf/sensors/rplidar.urdf.xacro"/>
     <xacro:include filename="$(find cr2_description)/urdf/sensors/ultrasonic.urdf.xacro"/>
     <xacro:include filename="$(find cr2_description)/urdf/sensors/range.urdf.xacro"/>
+    <xacro:include filename="$(find cr2_description)/urdf/sensors/imu.urdf.xacro"/>
 
+        <!--Imu link and plugin-->
+    <xacro:imu_sensor xyz="-0.1 0 ${0.04 + 0.01}" 
+                  rpy="0 0 0"
+                  parent="base_link">
+    </xacro:imu_sensor>
 
     <xacro:macro name="add_sensors">
         <!---->

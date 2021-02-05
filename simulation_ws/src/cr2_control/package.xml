@@ -20,6 +20,9 @@
     <depend>tf</depend>
     <depend>urdf</depend>
 
+    <depend>ridgeback_gazebo_plugins</depend>
+    <depend>ridgeback_control</depend>
+    
     <exec_depend>joint_state_controller</exec_depend>
     <exec_depend>hardware_interface</exec_depend>
     
@@ -34,5 +37,5 @@
     <exec_depend>map_server</exec_depend>
     <exec_depend>amcl</exec_depend>
     
-    <exec_depend>ridgeback_control</exec_depend>
+    
 </package>
