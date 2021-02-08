@@ -11,12 +11,12 @@
     </include>
 
     <include file="$(find cr2_navigation)/launch/include/move_base.launch">
-        <arg if="$(arg simulation)" name="params_dir_path" value="$(find cr2_navigation)/params/move_base/sim"/>
-        <arg unless="$(arg simulation)" name="params_dir_path" value="$(find cr2_navigation)/params/move_base/hw"/>
+        <arg if="$(arg simulation)" name="params_dir_path" value="$(find cr2_navigation)/params/sim/move_base"/>
+        <arg unless="$(arg simulation)" name="params_dir_path" value="$(find cr2_navigation)/params/hw/move_base"/>
     </include>
 
     <include file="$(find cr2_navigation)/launch/include/ekf.launch">
-        <arg if="$(arg simulation)" name="config_file_path" value="$(find cr2_navigation)/params/ekf/ekf_sim.yaml"/>
-        <arg unless="$(arg simulation)" name="config_file_path" value="$(find cr2_navigation)/params/ekf/ekf.yaml"/>
+        <arg if="$(arg simulation)" name="params_dir_path" value="$(find cr2_navigation)/params/sim/ekf"/>
+        <arg unless="$(arg simulation)" name="params_dir_path" value="$(find cr2_navigation)/params/hw/ekf"/>
     </include>
 </launch>
