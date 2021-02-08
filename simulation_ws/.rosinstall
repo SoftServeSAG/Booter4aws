@@ -1,0 +1,28 @@
+- git:
+    uri: https://github.com/aws-robotics/aws-robomaker-small-warehouse-world.git
+    local-name: src/deps/aws-robomaker-small-warehouse-world
+    version: master
+- git:
+    uri: https://github.com/RobotWebTools/rosbridge_suite.git
+    local-name: src/deps/rosbridge_suite
+    version: 0.11.2
+    
+- git:
+    local-name: src/deps/aws-robomaker-hospital-world
+    uri: https://github.com/aws-robotics/aws-robomaker-hospital-world.git
+    version: master
+    
+- git:
+    local-name: src/deps/explore_lite
+    uri: https://github.com/hrnr/m-explore.git
+    version: melodic-devel
+
+- git:
+    local-name: src/deps/rospy_message_converter
+    uri: https://github.com/uos/rospy_message_converter.git
+    version: master
+
+- git:
+    local-name: src/tests/aws_ros_tests
+    uri: https://github.com/SoftServeSAG/aws_ros_tests.git
+    version: feature/navigation_test

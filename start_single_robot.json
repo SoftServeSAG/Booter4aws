@@ -1,0 +1,20 @@
+{
+    "robots": [
+    ],
+    "server": {
+        "name": "SERVER",
+        "environmentVariables": {
+            "START_X": "0",
+            "START_Y": "1",
+            "START_Z": "0.0",
+            "START_YAW": "0",
+            "USE_CUSTOM_MOVE_OBJECT_GAZEBO_PLUGIN":"true",
+            "MAPPING":"false",
+            "ROBOT_MONITORING":"true",
+            "ROBOT_TESTING":"false"
+        },
+        "packageName": "cr2_control",
+        "launchFile": "cr2_single.launch"
+      }
+
+  }

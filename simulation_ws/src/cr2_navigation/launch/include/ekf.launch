@@ -1,0 +1,7 @@
+<launch>
+    <arg name="params_dir_path" default="$(find cr2_navigation)/params/sim/ekf"/>
+
+    <node pkg="robot_localization" type="ekf_localization_node" name="ekf_localization">
+        <rosparam command="load" file="$(arg params_dir_path)/ekf.yaml"/>
+    </node>
+</launch>

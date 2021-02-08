@@ -1,0 +1,80 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+
+
+    <xacro:include filename="$(find cr2_description)/params/cr2_params.urdf.xacro"/>
+
+
+    <xacro:macro name="rplidar" params="parent_link_name">
+        <link name="laser_link">
+            <visual>
+                <xacro:cylinder_geometry height="${rplidar_height}" radius="${rplidar_radius}"/>
+                <xacro:navajo_white_material/>
+            </visual>
+
+            <xacro:cylinder_collision height="${rplidar_height}" radius="${rplidar_radius}"/>
+            <xacro:cylinder_inertia mass="${rplidar_mass}" height="${rplidar_height}" radius="${rplidar_radius}"/>
+        </link>
+
+        <joint name="laser_base_joint" type="fixed">
+            <xacro:rplidar_origin/>
+            <parent link="${parent_link_name}" />
+            <child link="laser_link" />
+        </joint>
+
+        <link name="laser_oscillator">
+            <visual>
+                <xacro:cylinder_geometry height="0.001" radius="${rplidar_radius}"/>
+                <xacro:blue_material/>
+            </visual>
+
+            <xacro:cylinder_collision height="0.001" radius="${rplidar_radius}"/>
+            <xacro:cylinder_inertia mass="0.001" height="0.001" radius="${rplidar_radius}"/>
+
+        </link>
+        <joint name="laser_oscillator_joint" type="fixed">
+            <origin xyz="0 0 ${rplidar_height/2 - 0.005}" rpy="0 0 ${pi}"/>
+            <parent link="laser_link" />
+            <child link="laser_oscillator" />
+        </joint>
+
+
+        <gazebo reference="laser_oscillator">
+          <material>Gazebo/Green</material>
+          <sensor type="ray" name="laser">
+            <pose>0 0 0 0 0 0</pose>
+            <visualize>false</visualize>
+
+            <update_rate>40</update_rate>
+            <ray>
+              <scan>
+                <horizontal>
+                  <!--TODO: figureout exact samples for RPLIDAR A2-->
+                  <samples>1081</samples>
+                  <resolution>1</resolution>
+                  <min_angle>0</min_angle>
+                  <max_angle>6.283185</max_angle>
+                </horizontal>
+              </scan>
+              <range>
+                <!--TODO: figureout exact min/max for RPLIDAR A2-->
+                <min>0.3</min>
+                <max>10.0</max> <!--for this dist is configured navigator-->
+                <resolution>0.01</resolution>
+              </range>
+              <noise>
+                <type>gaussian</type>
+                <mean>0.0</mean>
+                <stddev>0.01</stddev>
+              </noise>
+            </ray>
+            <plugin name="gazebo_ros_rplidar_controller" filename="libgazebo_ros_laser.so">
+              <!--<topicName>laser/scan</topicName>-->
+              <topicName>front/scan</topicName>
+              <frameName>laser_oscillator</frameName>
+              <!--<frameName>front_laser</frameName>-->
+            </plugin>
+          </sensor>
+       </gazebo>
+    </xacro:macro>
+</robot>

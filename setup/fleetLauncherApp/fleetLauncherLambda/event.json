@@ -1,0 +1,30 @@
+{
+    "robots": [
+    {
+        "name": "robot1",
+        "environmentVariables": {
+            "START_X": "2",
+            "START_Y": "2",
+            "START_Z": "0.0",
+            "START_YAW": "0",
+            "USE_CUSTOM_MOVE_OBJECT_GAZEBO_PLUGIN":"true"
+        },
+        "packageName": "cr2_control",
+        "launchFile": "cr2.launch"
+    }
+    ],
+    "server": {
+        "name": "SERVER",
+        "environmentVariables": {
+            "START_X": "0",
+            "START_Y": "0",
+            "START_Z": "0.0",
+            "START_YAW": "0",
+            "USE_CUSTOM_MOVE_OBJECT_GAZEBO_PLUGIN":"true",
+            "MAPPING":"true"
+        },
+        "packageName": "cr2_control",
+        "launchFile": "cr2.launch"
+      }
+
+  }

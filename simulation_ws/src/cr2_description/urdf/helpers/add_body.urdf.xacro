@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+
+    <xacro:include filename="$(find cr2_description)/params/cr2_params.urdf.xacro"/>
+
+    <xacro:macro name="add_body" params="parent_link
+                                        *body_to_platform_translation">
+        <joint name="body_link_joint" type="fixed">
+            <parent link="${parent_link}"/>
+            <child link="body"/>
+        </joint>
+
+        <link name="body">
+            <visual>
+                <xacro:load_mash_scaled
+                        mash_filename="${cr2_body_mash}"
+                        scale_proportion="${scale_proportion}" />
+                <xacro:red_material/>
+                <xacro:body_to_base_platform_translation_mash/>
+            </visual>
+
+            <collision>
+                <xacro:set_box width="${body_box_y}"
+                               height="${body_box_z}"
+                               depth="${body_box_x}"/>
+                <xacro:body_to_base_platform_translation_box/>
+            </collision>
+
+
+            <xacro:set_inertial width="${body_box_y}"
+                                height="${body_box_z}"
+                                depth="${body_box_x}"
+                                mass="${body_mass}">
+                <!--TODO check for it, maybe origin should be changed-->
+                <xacro:body_to_base_platform_translation_box/>
+            </xacro:set_inertial>
+
+
+        </link>
+        <link name="back_cover">
+            <visual>
+                <xacro:back_cover_mash_translaton/>
+                <xacro:load_mash_scaled
+                        mash_filename="${back_cover_mash}"
+                        scale_proportion="${scale_proportion}" />
+                <xacro:red_material/>
+            </visual>
+
+            <xacro:dummy_interia/>
+        </link>
+
+        <joint name="back_cover_joint" type="fixed">
+            <xacro:body_to_base_platform_translation_mash/>
+            <parent link="body"/>
+            <child link="back_cover"/>
+        </joint>
+
+    </xacro:macro>
+</robot>
+

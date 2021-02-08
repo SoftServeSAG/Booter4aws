@@ -1,0 +1,9 @@
+<launch>
+    <param name="robot_description" command="$(find xacro)/xacro --inorder '$(find cr2_description)/robot/cr2.urdf.xacro'"/>
+    
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"
+          respawn="false" output="screen"/>
+
+    <!-- FIXME: using cached robot_description since loading is very slow -->
+<!--    <rosparam command="load" file="$(find cr2_description)/params/robot_description.yaml" />-->
+</launch>

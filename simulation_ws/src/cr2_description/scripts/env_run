@@ -1,0 +1,14 @@
+#!/bin/bash
+# This simple wrapper allowing us to pass a set of
+# environment variables to be sourced prior to running
+# another command. Used in the launch file for setting
+# robot configurations prior to xacro.
+
+# not in use for this pack currently (KD 27-11-18)
+
+ENVVARS_FILE=$1
+shift 1
+
+set -a
+source $ENVVARS_FILE 
+$@

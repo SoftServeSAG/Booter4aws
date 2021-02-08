@@ -1,0 +1,113 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+
+
+    <xacro:include filename="$(find cr2_description)/params/cr2_params.urdf.xacro"/>
+
+    <xacro:macro name="ultrasonic" params="parent_link_name position roll x y z">
+
+        <link name="ultrasonic_pcb_${position}_link">
+            <visual>
+              <xacro:box_geometry width="${ultrasonic_pcb_width}" height="${ultrasonic_pcb_height}" depth="${ultrasonic_pcb_length}"/>
+              <xacro:navajo_white_material/>
+            </visual>
+            <xacro:box_collision width="${ultrasonic_pcb_width}" height="${ultrasonic_pcb_height}" depth="${ultrasonic_pcb_length}">
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+            </xacro:box_collision>
+            <xacro:box_inertia width="${ultrasonic_pcb_width}" height="${ultrasonic_pcb_height}" depth="${ultrasonic_pcb_length}" mass="${ultrasonic_pcb_mass}"/>
+        </link>
+
+        <joint name="ultrasonic_pcb_${position}_joint" type="fixed">
+            <origin xyz="${x} ${y} ${z}" rpy="${roll} 0 ${pi/2}"/>
+            <parent link="${parent_link_name}" />
+            <child link="ultrasonic_pcb_${position}_link" />
+        </joint>
+
+
+        <link name="ultrasonic_transmitter_${position}_link">
+            <visual>
+                <xacro:cylinder_geometry height="${ultrasonic_height}" radius="${ultrasonic_radius}"/>
+                <xacro:green_material/>
+            </visual>
+            <xacro:cylinder_collision height="${ultrasonic_height}" radius="${ultrasonic_radius}"/>
+            <xacro:cylinder_inertia mass="${ultrasonic_mass}" height="${ultrasonic_height}" radius="${ultrasonic_radius}"/>
+        </link>
+
+        <link name="ultrasonic_receiver_${position}_link">
+            <visual>
+                <xacro:cylinder_geometry height="${ultrasonic_height}" radius="${ultrasonic_radius}"/>
+                <xacro:red_material/>
+            </visual>
+            <xacro:cylinder_collision height="${ultrasonic_height}" radius="${ultrasonic_radius}"/>
+            <xacro:cylinder_inertia mass="${ultrasonic_mass}" height="${ultrasonic_height}" radius="${ultrasonic_radius}"/>
+        </link>
+
+        <joint name="ultrasonic_transmitter_${position}_joint" type="fixed">
+            <origin xyz="0 ${ultrasonic_height/2} -${ultrasonic_pcb_length / 2 - ultrasonic_radius * 2 + 0.005}" rpy="${pi/2} 0 0"/>
+            <parent link="ultrasonic_pcb_${position}_link" />
+            <child link="ultrasonic_transmitter_${position}_link" />
+        </joint>
+
+        <joint name="ultrasonic_receiver_${position}_joint" type="fixed">
+            <origin xyz="0 ${ultrasonic_height/2} ${ultrasonic_pcb_length / 2 - ultrasonic_radius * 2 + 0.005 }" rpy="${pi/2} 0 0"/>
+            <parent link="ultrasonic_pcb_${position}_link" />
+            <child link="ultrasonic_receiver_${position}_link" />
+        </joint>
+
+        <link name="ultrasonic_transmitter_oscillator_${position}_link"/>
+
+        <joint name="ultrasonic_transmitter_oscillator_${position}_joint" type="fixed">
+            <origin xyz="0 0 0" rpy="1.57 1.57 1.57"/>
+            <parent link="ultrasonic_transmitter_${position}_link" />
+            <child link="ultrasonic_transmitter_oscillator_${position}_link" />
+        </joint>
+    </xacro:macro>
+
+    <xacro:macro name="ultrasonic_gazebo" params="position">
+    <gazebo reference="ultrasonic_transmitter_oscillator_${position}_link">
+      <material>Gazebo/Green</material>
+      <sensor type="ray" name="sonar_${position}">
+        <pose>0 0 0 0 0 0</pose>
+        <update_rate>1</update_rate>
+        <visualize>false</visualize>
+        <ray>
+          <scan>
+            <horizontal>
+              <samples>15</samples>
+              <resolution>3</resolution>
+              <!--<min_angle>-0.13</min_angle>-->
+              <min_angle>-0.13</min_angle>
+              <max_angle>0.13</max_angle>
+            </horizontal>
+            <vertical>
+              <samples>15</samples>
+              <resolution>3</resolution>
+                <min_angle>-0.13</min_angle>
+              <max_angle>0.13</max_angle>
+            </vertical>
+          </scan>
+          <range>
+            <min>0.02</min>
+            <max>4.0</max>
+            <resolution>3</resolution>
+          </range>
+        </ray>
+
+        <plugin filename="libgazebo_ros_range.so" name="gazebo_ultrasonic_${position}">
+          <robotNamespace>/</robotNamespace>
+          <gaussianNoise>0.05</gaussianNoise>
+          <alwaysOn>true</alwaysOn>
+          <updateRate>20</updateRate>
+          <topicName>sonar_${position}/scan</topicName>
+          <frameName>ultrasonic_transmitter_oscillator_${position}_link</frameName>
+
+          <minRange>0.0</minRange>
+          <maxRange>5.0</maxRange>
+          <fov>0.26</fov>
+          <radiation>ultrasound</radiation>
+        </plugin>
+      </sensor>
+    </gazebo>
+  </xacro:macro>
+
+</robot>

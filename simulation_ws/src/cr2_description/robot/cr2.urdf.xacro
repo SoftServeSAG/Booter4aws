@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<robot name="cr2" xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <xacro:include filename="$(find cr2_description)/urdf/materials.urdf.xacro" />
+  <xacro:include filename="$(find cr2_description)/urdf/common.urdf.xacro" />
+  <xacro:include filename="$(find cr2_description)/urdf/modified_wheels.urdf.xacro" />
+  <xacro:include filename="$(find cr2_description)/urdf/helpers/add_wheels.urdf.xacro" />
+  <xacro:include filename="$(find cr2_description)/urdf/helpers/add_base_link.urdf.xacro"/>
+  <xacro:include filename="$(find cr2_description)/urdf/helpers/add_body.urdf.xacro"/>
+  <xacro:include filename="$(find cr2_description)/urdf/helpers/add_head.urdf.xacro"/>
+  <xacro:include filename="$(find cr2_description)/urdf/helpers/add_sensors.urdf.xacro"/>
+
+  <xacro:include filename="$(find cr2_description)/urdf/pillar.urdf.xacro"/>
+
+  <xacro:include filename="$(find cr2_description)/params/cr2_params.urdf.xacro"/>
+
+
+  <xacro:add_base
+          parent_length="${base_platform_length}"
+          parent_height="${base_platform_height}"
+          parent_width="${base_platform_width}"/>
+  <xacro:add_wheels
+          parent_length="${base_platform_length}"
+          parent_height="${base_platform_height}"
+          parent_width="${base_platform_width}"
+          mode="${mode}"/>
+  <xacro:add_body  parent_link="base_platform">
+    <xacro:body_to_base_platform_translation_mash/>
+  </xacro:add_body>
+
+  <xacro:add_head   parent_link="body"/>
+
+  <xacro:pillar parent_link_name="body" position="FRONT_RIGHT"
+                x="${front_back_pillar_offset}" z="${body_box_z}" y="${right_left_pillar_offset}"/>
+  <xacro:pillar parent_link_name="body" position="FRONT_LEFT"
+                x="${front_back_pillar_offset}" z="${body_box_z}" y="${-right_left_pillar_offset}"/>
+  <xacro:pillar parent_link_name="body" position="REAR_RIGHT"
+                x="${-front_back_pillar_offset}" z="${body_box_z}" y="${right_left_pillar_offset}"/>
+  <xacro:pillar parent_link_name="body" position="REAR_LEFT"
+                x="${-front_back_pillar_offset}" z="${body_box_z}" y="${-right_left_pillar_offset}"/>
+
+  <xacro:add_sensors/>
+
+
+  <xacro:include filename="$(find cr2_description)/robot/cr2.gazebo.xacro"/>
+
+</robot>

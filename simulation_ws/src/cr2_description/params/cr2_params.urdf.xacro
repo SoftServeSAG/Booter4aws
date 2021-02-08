@@ -1,0 +1,294 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+
+
+    <!--TODO ! make it in normal '.config' file -->
+
+    <!--GLOBAL-->
+
+    <xacro:property name="PI" value="3.1415"/>
+
+    <xacro:property name="scale_proportion" value="0.001"/>
+
+    <xacro:macro name="load_mash_scaled"
+                 params="mash_filename
+                         scale_proportion" >
+        <geometry>
+            <mesh filename="${mash_filename}" scale="${scale_proportion} ${scale_proportion} ${scale_proportion}"/>
+        </geometry>
+    </xacro:macro>
+
+    <xacro:macro name="dummy_interia">
+        <xacro:box_inertia
+                width="0"
+                height="0"
+                depth="0"
+                mass="0"/>
+    </xacro:macro>
+
+
+    <xacro:property name="mode" value="debug"/> <!-- For performance purposes we temporary remove real geometry of wheels and put simple cylinders -->
+
+    <!--/GLOBAL-->
+
+    <!--MASHES-->
+    <xacro:property name="cr2_body_mash" value="package://cr2_description/meshes/body.stl"/>
+    <xacro:property name="cr2_head_mash" value="package://cr2_description/meshes/head.stl"/>
+    <xacro:property name="cr2_wheel_1_mash" value="package://cr2_description/meshes/Mecanum_Wheel_1.stl"/>
+    <xacro:property name="cr2_wheel_2_mash" value="package://cr2_description/meshes/Mecanum_Wheel_2.stl"/>
+    <xacro:property name="back_cover_mash" value="package://cr2_description/meshes/back_cover.stl"/>
+    <xacro:property name="tray_mash" value="package://cr2_description/meshes/tray.stl"/>
+    <!--/MASHES-->
+
+    <!--DEBUG-->
+    <!--/DEBUG-->
+
+
+<!--BODY-->
+    <!--TODO measure on assambled robot-->
+    <xacro:property name="margin_from_ground_to_body" value="0.03"/>
+
+    <xacro:property name="body_width"           value="0.662"/>     <!-- has been measured via Rviz -->
+    <xacro:property name="body_height"          value="0.896"/>     <!-- has been measured via Rviz -->
+    <xacro:property name="body_lenght"          value="0.752"/>     <!-- has been measured via Rviz -->
+    <!--TODO Check body mass-->
+    <xacro:property name="body_mass"            value="3"/>
+
+    <xacro:property name="back_cover_width"     value="0.195"/>     <!-- has been measured via Rviz -->
+    <xacro:property name="back_cover_height"    value="0.001"/>     <!-- has been measured via Rviz -->
+    <xacro:property name="back_cover_lenght"    value="0.578"/>     <!-- has been measured via Rviz -->
+
+
+    <!--TODO Check back_cover mass -->
+    <xacro:property name="back_cover_mass"      value="0.0"/>
+
+
+    <xacro:property name="body_box_x"      value="0.525"/>
+    <xacro:property name="body_box_y"      value="0.486"/>
+    <xacro:property name="body_box_z"      value="0.60"/>
+    <!--<xacro:property name="body_box_clearence" value="0.385"/>-->
+    <xacro:property name="body_box_clearence" value="0.0"/>
+    <xacro:property name="mesh_x_offset" value="0.27"/>
+    <xacro:property name="mesh_y_offset" value="-0.24"/>
+
+
+<!--TODO make general joint translation then -->
+    <xacro:macro name="body_to_base_platform_translation_mash">
+        <origin xyz="${mesh_x_offset}
+                     ${mesh_y_offset}
+                     ${body_box_clearence}"
+                rpy="${pi/2} 0 ${pi}"/>
+                <!--rpy="${pi/2} 0 ${pi}"/>-->
+    </xacro:macro>
+    <xacro:macro name="body_to_base_platform_translation_box">
+        <origin xyz="${front_wheels_x_offset}
+                     0
+                     ${body_box_z/2}"
+                rpy="${pi/2} 0 ${pi/2}"/>
+
+        <!--rpy="${pi/2} 0 ${pi}"/>-->
+    </xacro:macro>
+
+    <xacro:property name="body_back_angle" value=" ${0.0174 * 3 + 0.00872665}"/>
+    <xacro:macro name="back_cover_mash_translaton">
+        <origin xyz="${body_box_x - front_wheels_x_offset + 0.01}
+                             0
+                             ${body_box_y - 0.017}"
+                rpy="0
+                     ${pi/2}
+                     ${body_back_angle}"/>
+    </xacro:macro>
+
+    <!--/BODY-->
+
+
+    <!-- MECANUM WHEELS PLATFORM -->
+
+    <xacro:property name="motor_holder_radius" value="0.02"/>
+    <!--<xacro:property name="motor_holder_height" value="0.025"/>-->
+    <xacro:property name="motor_holder_height" value="0.01"/>
+    <xacro:property name="motor_holder_mass" value="0.08"/>
+    <xacro:property name="motor_holder_mass" value="0.088"/>
+
+    <xacro:property name="wheel_radius" value="0.05"/>
+    <xacro:property name="wheel_width" value="0.05"/>
+    <xacro:property name="wheel_diameter" value="${2 * wheel_radius}"/>
+    <xacro:property name="wheel_mass" value="0.1"/>
+
+    <!--using this parameter as the basis of calculations, as it is most important-->
+    <xacro:property name="diff_wheels_front_back" value="0.3"/>
+    <xacro:property name="diff_wheels_left_right" value="0.3"/>
+
+
+    <!--TODO verify-->
+    <xacro:property name="base_link_mass" value="5"/>
+    <xacro:property name="base_platform_length"
+                    value="${diff_wheels_front_back + (2 * wheel_radius) - front_wheels_x_offset}"/> <!-- value="0.36": OLD value from datasheet-->
+    <xacro:property name="base_platform_width"
+                    value="${diff_wheels_left_right - (2 * (wheel_width/2)) }"/> <!--approx 0.345 - 0.1 -->
+    <xacro:property name="base_platform_height" value="0.05"/>
+
+    <!--ambiguouse value at datasheet, it width of base (yellow) detail with wheels and stuf mounterd on it-->
+    <xacro:property name="base_platform_origin_above_ground" value="0"/>
+    <!--<xacro:property name="base_height" value="0.1"/>-->
+    <!--again troubles with Datasheet : 0.1 = 2* wheel radius-->
+    <!--TODO check appropriate mass-->
+    <xacro:property name="base_platform_mass" value="10"/>
+
+    <!--NOTE: x : regarding to length;  y : regarding to width-->
+    <xacro:property name="wheels_x_translation" value="${base_platform_length/2 - wheel_radius}"/>
+    <xacro:property name="front_wheels_x_offset" value="0.02"/>
+    <xacro:property name="sidewise_wheels_y_translation" value="${base_platform_width/2 + wheel_width/2}"/>
+
+
+    <xacro:macro name="f_l_wheel_pose">
+        <origin xyz="${wheels_x_translation + front_wheels_x_offset}
+                     ${sidewise_wheels_y_translation}
+                      0"
+                rpy="0 0 0" />
+    </xacro:macro>
+    <xacro:macro name="f_r_wheel_pose">
+        <origin xyz="${wheels_x_translation + front_wheels_x_offset}
+                     ${-(sidewise_wheels_y_translation)}
+                     0"
+                rpy="0 0 0" />
+    </xacro:macro>
+    <xacro:macro name="r_l_wheel_pose">
+        <origin xyz="${-(wheels_x_translation)}
+                     ${sidewise_wheels_y_translation}
+                      0"
+                rpy="0 0 0" />
+    </xacro:macro>
+    <xacro:macro name="r_r_wheel_pose">
+        <origin xyz="${-(wheels_x_translation)}
+                     ${-(sidewise_wheels_y_translation)}
+                     0"
+                rpy="0 0 0" />
+    </xacro:macro>
+    <!-- /MECANUM WHEELS -->
+
+
+    <!--HEAD-->
+    <xacro:property name="head_width"   value="0.579"/>     <!-- has been measured via Rviz -->
+    <xacro:property name="head_height"  value="0.389"/>     <!-- has been measured via Rviz -->
+    <xacro:property name="head_lenght"  value="0.675"/>     <!-- has been measured via Rviz -->
+    <!--TODO Check head mass-->
+    <xacro:property name="head_mass"    value="1"/>
+
+    <xacro:property name="head_box_z" value="0.26"/>
+    <xacro:property name="head_box_x" value="${body_box_x}"/>
+    <xacro:property name="head_box_y" value="${body_box_y}"/>
+
+
+    <xacro:property name="head_to_body_margin" value="0.02"/>
+
+    <xacro:macro name="head_to_body_translation_mash">
+        <origin xyz="${mesh_x_offset - 0.03}
+                           ${mesh_y_offset + 0.025}
+                           ${head_to_body_margin}"
+                rpy="${pi/2} 0 ${pi}"/>
+    </xacro:macro>
+
+    <xacro:macro name="tray_offset">
+        <origin xyz="${head_box_x/2 - 0.03}
+                     ${head_box_z/2 - 0.025}
+                     ${head_box_y/2 - 0.025}"
+                rpy="0 0 0"/>
+    </xacro:macro>
+
+    <xacro:macro name="monitor_offset">
+        <origin xyz="0
+                     0.01
+                     ${body_box_y/2 - 0.015}"
+                rpy="${pi/2}
+                     ${ - 0.0174 * 7 + 0.00872665 }
+                     ${-pi/2}"/>
+    </xacro:macro>
+    <xacro:macro name="head_to_body_translation_box">
+                <origin xyz="0
+                             0
+                             ${body_box_z + head_box_z/2 + head_to_body_margin}"
+                rpy="${pi/2} 0 ${pi/2}"/>
+    </xacro:macro>
+
+    <!--TODO get better head box, for now using x, y from body-->
+
+    <xacro:property name="tray_width"   value="0.449"/>     <!-- has been measured via Rviz -->
+    <xacro:property name="tray_height"  value="0.03"/>      <!-- has been measured via Rviz -->
+    <xacro:property name="tray_lenght"  value="0.449"/>     <!-- has been measured via Rviz -->
+    <!--TODO Check head tray mass-->
+    <xacro:property name="tray_mass"    value="0.1"/>
+
+    <xacro:property name="monitor_width"   value="0.13"/>
+    <xacro:property name="monitor_height"  value="0.001"/>
+    <xacro:property name="monitor_lenght"  value="0.16"/>
+    <!--&lt;!&ndash;TODO Check monitor mass&ndash;&gt;-->
+    <xacro:property name="monitor_mass"    value="0.295"/>  <!-- weight of iPad mini 4 -->
+    <!--/HEAD-->
+
+
+    <!--PILLARS-->
+    <xacro:property name="pillar_radius" value="0.006"/>
+    <xacro:property name="pillar_height" value="${head_to_body_margin}"/>
+    <xacro:property name="pillar_mass" value="0.001"/>
+    <!--/PILLARS-->
+
+
+<!--SENSORS-->
+
+    <xacro:property name="ultrasonic_bottom_margin" value="0.15"/>
+    <xacro:property name="ultrasonic_top_margin" value="0.765"/>
+    <xacro:property name="range_sensor_margin" value="1.268"/>
+
+    <!--ULTRASONIC-->
+
+
+    <xacro:property name="ultrasonic_radius" value="0.006"/>
+    <xacro:property name="ultrasonic_height" value="0.0138"/>
+
+    <xacro:property name="ultrasonic_pcb_height" value="0.0012"/>
+    <xacro:property name="ultrasonic_pcb_length" value="0.045"/>
+    <xacro:property name="ultrasonic_pcb_width" value="0.02"/>
+    <!--TODO we will not emulate all ultrasonic's PCB so which mass we should use-->
+    <xacro:property name="ultrasonic_mass" value="0.019"/>
+    <xacro:property name="ultrasonic_pcb_mass" value="0.019"/>
+
+    <!--/ULTRASONIC-->
+
+    <!--RPLIDAR-->
+
+    <xacro:macro name="rplidar_origin">
+        <origin xyz="0.0
+                     0.0
+                     ${body_box_z - head_to_body_margin/2}"
+                rpy="0 0 0"/>
+    </xacro:macro>
+
+    <xacro:property name="front_back_pillar_offset" value="${body_box_x/2 - 0.08}"/>
+    <xacro:property name="right_left_pillar_offset" value="${0.07-body_box_y/2}"/>
+
+
+    <xacro:property name="rplidar_radius" value="0.038"/>
+    <xacro:property name="rplidar_height" value="0.041"/>
+    <xacro:property name="rplidar_mass" value="0.019"/>
+
+    <!--/RPLIDAR-->
+
+    <!--RANGE-->
+    <xacro:property name="range_radius" value="0.038"/>
+    <xacro:property name="range_emitter_height" value="0.007"/>
+    <xacro:property name="range_emitter_radius" value="0.004"/>
+    <xacro:property name="range_collector_radius" value="0.002"/>
+    <!--TODO we will not emulate all ultrasonic's PCB so which mass we should use-->
+    <xacro:property name="range_mass" value="0.019"/>
+
+    <xacro:property name="range_controller_width" value="0.024"/>
+    <xacro:property name="range_controller_height" value="0.01"/>
+    <xacro:property name="range_controller_depth" value="0.04"/>
+    <!--/RANGE-->
+
+<!--/SENSORS-->
+
+
+
+</robot>

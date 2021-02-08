@@ -1,0 +1,109 @@
+<?xml version="1.0"?>
+<launch>
+    <arg name="gui" default="false" />
+    <arg name="rviz" default="true" />
+    
+    <arg name="x" value="$(env START_X)" />
+    <arg name="y" value="$(env START_Y)" />
+    <arg name="z" value="$(env START_Z)" />
+    <arg name="yaw" value="$(env START_YAW)" />
+    
+    <arg name="model_name" value="cr2" />
+    
+    <arg name="robot_namespace" default="/"/>
+
+    <param name="ROBOT_NAME" value="$(env ROBOT_NAME)"/>
+    <param name="ROBOT_SDF_FILE" value="$(find cr2_multifleet)/static_models_w_plugin/cr2/cr2.sdf"/>
+    
+    <arg name="ROSBRIDGE_STATE" value="$(env ROSBRIDGE_STATE)" />
+    <param name="ROSBRIDGE_STATE" value="$(env ROSBRIDGE_STATE)"/>
+    <param name="ROSBRIDGE_IP" value="$(env ROSBRIDGE_IP)" />
+    
+    <arg name="mapping" value="$(optenv MAPPING false)" />
+    <arg name="s3_bucket" value= "$(optenv S3_BUCKET)" />
+    <arg name="robot_monitoring" value= "$(optenv ROBOT_MONITORING false)" />
+    <arg name="robot_testing" value= "$(optenv ROBOT_TESTING false)" />
+
+    <param name="use_custom_move_object_gazebo_plugin" value="$(optenv USE_CUSTOM_MOVE_OBJECT_GAZEBO_PLUGIN false)" />
+
+
+    <!-- Launch rosbridge if this is server -->
+    <group if="$(eval ROSBRIDGE_STATE=='SERVER')" >
+        <param name="ROSBRIDGE_IP" value="localhost"/>
+        <include file="$(find rosbridge_server)/launch/rosbridge_websocket.launch" />
+    </group>
+    
+    <group if="$(eval ROSBRIDGE_STATE=='SERVER' || ROSBRIDGE_STATE=='CLIENT')" >
+        <!-- Launch robot_fleet specific nodes -->
+        <param name="MODEL_NAME" value="$(arg model_name)"/>
+        <node name="gazebo_model_mover" pkg="cr2_multifleet" type="gazebo_model_mover.py" /> 
+        <node name="client_rosbridge" pkg="cr2_multifleet" type="client_rosbridge.py" />
+    </group>
+    
+    
+    <node name="data_client_rosbridge" pkg="cr2_multifleet" type="data_client_rosbridge.py">
+        <!-- value must contain '/' on the front -->
+        <param name="topic" value="/front/scan"/> 
+        <param name="message_type" value="sensor_msgs/LaserScan"/>
+    </node>
+    
+    <node name="data_server_rosbridge" pkg="cr2_multifleet" type="data_server_rosbridge.py" />
+
+    <!-- Launch cr2 control -->
+    <include file="$(find cr2_control)/launch/control.launch"/>
+
+    <!-- spawn robot -->
+    <include file="$(find cr2_description)/launch/description.launch"/>
+    <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model"
+          args="-urdf -model $(arg model_name) -param robot_description -x $(arg x)
+              -y $(arg y)
+              -z $(arg z)
+              -Y $(arg yaw)"/>
+
+
+    <!-- Launch the world -->
+    <include file="$(find aws_robomaker_hospital_world)/launch/hospital.launch" >
+        <arg name="gui" default="$(arg gui)" />
+    </include>
+
+    <!-- Run the map server -->
+    <arg name="map_file" default="$(find cr2_navigation)/maps/hospital.yaml"/>
+    <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)" />
+
+    
+    <!-- Launch navigation stack -->
+    <include file="$(find cr2_navigation)/launch/include/move_base.launch" />    
+    <include file="$(find cr2_navigation)/launch/include/ekf.launch" />     
+
+    <!-- Launch amcl package -->
+    <include file="$(find cr2_navigation)/launch/include/amcl.launch">  
+        <arg name="initial_pose_x" value="$(arg x)"/>
+        <arg name="initial_pose_y" value="$(arg y)"/>
+        <arg name="initial_pose_a" value="$(arg yaw)"/>
+        <arg name="scan_topic" value="/front/scan"/>
+    </include>
+
+    <!-- Launch the mapping functionality if needed -->
+    <group if="$(arg mapping)">
+        <include file="$(find cr2_control)/launch/cr2_mapping.launch" />  
+    </group>
+    
+    
+    <!-- if bucket was provided launch s3 file uploader -->
+    <group if="$(eval s3_bucket != '')">
+        <include file="$(find aws_s3_uploader)/launch/s3_file_uploader.launch">
+            <arg name="s3_bucket" value="$(arg s3_bucket)" />
+        </include>         
+    </group>
+    
+    <!-- Launch the robot_monitoring if needed -->
+    <group if="$(arg robot_monitoring)">
+        <include file="$(find robot_monitoring)/launch/monitoring.launch" />  
+    </group>
+
+        <!-- Launch the robot_testing if needed -->
+    <group if="$(arg robot_testing)">
+        <include file="$(find cr2_hospital_tests)/launch/navigation_test.launch" />  
+    </group>
+
+</launch>

@@ -1,0 +1,18 @@
+<launch>
+    <arg name="params_dir_path" default="$(find cr2_navigation)/params/sim/move_base"/>
+
+    <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
+        <rosparam file="$(arg params_dir_path)/costmap_common.yaml" command="load" ns="global_costmap"/>
+        <rosparam file="$(arg params_dir_path)/costmap_common.yaml" command="load" ns="local_costmap"/>
+        <rosparam file="$(arg params_dir_path)/costmap_local.yaml" command="load" ns="local_costmap"/>
+        <rosparam file="$(arg params_dir_path)/costmap_global.yaml" command="load" ns="global_costmap"/>
+
+        <rosparam file="$(arg params_dir_path)/planner.yaml" command="load"/>
+
+        <rosparam file="$(arg params_dir_path)/planner_local_dwa.yaml" command="load"/>
+        <param name="base_local_planner" value="dwa_local_planner/DWAPlannerROS"/>
+
+        <rosparam file="$(arg params_dir_path)/planner_global_navfn.yaml" command="load"/>
+        <param name="base_global_planner" type="string" value="navfn/NavfnROS"/>
+    </node>
+</launch>

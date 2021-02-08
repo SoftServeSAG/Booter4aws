@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+
+    <xacro:include filename="$(find cr2_description)/params/cr2_params.urdf.xacro"/>
+
+    <xacro:macro name="add_base" params="parent_length
+                                            parent_height
+                                            parent_width">
+
+        <link name="base_link"/> <!--it is intended to be empty-->
+
+        <joint name="base_link_joint" type="fixed">
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <parent link="base_link"/>
+            <child link="base_platform" />
+        </joint>
+
+        <link name="base_platform" >
+            <visual>
+                <origin xyz="0 0 ${base_platform_origin_above_ground}" rpy="${pi/2} 0 ${pi/2}"/>
+                <xacro:set_box width="${parent_width}"
+                               height="${parent_height}"
+                               depth="${parent_length}"/>
+                <xacro:navajo_white_material/>
+                <!--TODO change it (not crucial), because it is being extracted to definition inplace-->
+            </visual>
+            <collision>
+                <origin xyz="0 0 ${base_platform_origin_above_ground}" rpy="${pi/2} 0 ${pi/2}"/>
+                <xacro:set_box width="${parent_width}"
+                               height="${parent_height}"
+                               depth="${parent_length}"/>
+            </collision>
+
+            <xacro:set_inertial width="${parent_width}"
+                                height="${parent_height}"
+                                 depth="${parent_length}"
+                                mass="${base_platform_mass}">
+                <!--TODO check for it, maybe origin should be changed-->
+                <origin xyz="0 0 ${base_platform_origin_above_ground}" rpy="${pi/2} 0 ${pi/2}"/>
+            </xacro:set_inertial>
+        </link>
+
+    </xacro:macro>
+
+</robot>

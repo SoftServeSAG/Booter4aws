@@ -1,0 +1,119 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+
+
+    <xacro:include filename="$(find cr2_description)/params/cr2_params.urdf.xacro"/>
+
+
+    <xacro:macro name="range_sensor" params="parent_link_name position roll x y z">
+
+
+        <link name="range_${position}_link">
+            <visual>
+                <xacro:box_geometry width="${range_controller_width}" height="${range_controller_height}" depth="${range_controller_depth}"/>
+                <xacro:navajo_white_material/>
+            </visual>
+            <xacro:box_collision width="${range_controller_width}" height="${range_controller_height}" depth="${range_controller_depth}">
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+            </xacro:box_collision>
+            <xacro:box_inertia width="${range_controller_width}" height="${range_controller_height}" depth="${range_controller_depth}" mass="${range_mass}"/>
+        </link>
+
+        <joint name="range_${position}_joint" type="fixed">
+            <origin xyz="${x} ${y} ${z}" rpy="0 ${roll} 0"/>
+
+            <parent link="${parent_link_name}" />
+            <child link="range_${position}_link" />
+        </joint>
+
+        <link name="range_emitter_${position}_link">
+            <visual>
+                <xacro:cylinder_geometry height="${range_emitter_height}" radius="${range_emitter_radius}"/>
+                <xacro:black_material/>
+            </visual>
+            <xacro:cylinder_collision height="${range_emitter_height}" radius="${range_emitter_radius}"/>
+            <xacro:cylinder_inertia mass="0.001" height="${range_emitter_height}" radius="${range_emitter_radius}"/>
+        </link>
+
+        <joint name="range_emitter_${position}_joint" type="fixed">
+            <origin xyz="0 ${range_controller_height/2} -${range_controller_width/2}" rpy="${pi/2} 0 0"/>
+
+            <parent link="range_${position}_link" />
+            <child link="range_emitter_${position}_link" />
+        </joint>
+
+        <link name="range_collector_${position}_link">
+             <visual>
+                <xacro:cylinder_geometry height="${range_emitter_height}" radius="${range_collector_radius}"/>
+                <xacro:black_material/>
+            </visual>
+            <xacro:cylinder_collision height="${range_emitter_height}" radius="${range_collector_radius}"/>
+            <xacro:cylinder_inertia mass="0.001" height="${range_emitter_height}" radius="${range_collector_radius}"/>
+        </link>
+
+        <joint name="range_collector_${position}_joint" type="fixed">
+            <origin xyz="0 ${range_controller_height/2} ${range_controller_width/2}" rpy="${pi/2} 0 0"/>
+
+            <parent link="range_${position}_link" />
+            <child link="range_collector_${position}_link" />
+        </joint>
+
+        <link name="range_emitter_oscillator_${position}_link"/>
+
+        <joint name="range_emitter_oscillator_${position}_joint" type="fixed">
+            <origin xyz="0 0 0" rpy="1.57 1.57 0"/>
+            <parent link="range_emitter_${position}_link" />
+            <child link="range_emitter_oscillator_${position}_link" />
+        </joint>
+    </xacro:macro>
+
+
+
+    <!--TODO configure it properly, not by those magic-->
+
+    <xacro:macro name="range_sensor_gazebo" params="position">
+        <gazebo reference="range_emitter_oscillator_${position}_link">
+          <material>Gazebo/Green</material>
+          <sensor type="ray" name="range_sensor_${position}">
+            <pose>0 0 0 0 0 0</pose>
+            <update_rate>40</update_rate>
+            <visualize>false</visualize>
+            <ray>
+              <scan>
+                <horizontal>
+                  <samples>15</samples>
+                  <resolution>3</resolution>
+                  <min_angle>-0.305</min_angle>
+                  <max_angle>0.305</max_angle>
+                </horizontal>
+                <vertical>
+                  <samples>15</samples>
+                  <resolution>3</resolution>
+                  <min_angle>-0.305</min_angle>
+                  <max_angle>0.305</max_angle>
+                </vertical>
+              </scan>
+              <range>
+                <min>0.02</min>
+                <max>1.2</max>
+                <resolution>3</resolution>
+              </range>
+            </ray>
+
+            <plugin filename="libgazebo_ros_range.so" name="gazebo_range_sensor_${position}">
+              <robotNamespace>/</robotNamespace>
+              <gaussianNoise>0.05</gaussianNoise>
+              <alwaysOn>true</alwaysOn>
+              <updateRate>20</updateRate>
+              <topicName>range_${position}/scan</topicName>
+              <frameName>range_emitter_oscillator_${position}_link</frameName>
+
+              <minRange>0.02</minRange>
+              <maxRange>1.2</maxRange>
+              <radiation>radiation</radiation>
+              <fov>0.61</fov>
+            </plugin>
+          </sensor>
+        </gazebo>
+    </xacro:macro>
+</robot>

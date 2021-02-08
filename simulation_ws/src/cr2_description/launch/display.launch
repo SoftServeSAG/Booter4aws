@@ -1,0 +1,19 @@
+<!--old version of description.launch -->
+<launch>
+  <arg name="gui" default="false"/>
+  <param name="use_gui" value="$(arg gui)"/>
+  <param name="robot_description" command="$(find xacro)/xacro --inorder '$(find cr2_description)/robot/cr2.rviz.xacro'"/>
+
+  <!--<param name="robot_description"-->
+         <!--command="$(find cr2_description)/scripts/env_run-->
+                  <!--$(find cr2_description)/urdf/configs/$(arg config)-->
+                  <!--$(find xacro)/xacro $(find ridgeback_description)/urdf/ridgeback.urdf.xacro-->
+                  <!--&#45;&#45;inorder " />-->
+
+  <!--<node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" />-->
+
+  <include file="$(find cr2_control)/launch/control.launch" />
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher"/>
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find cr2_description)/rviz/cr2.rviz" required="true"/>
+
+</launch>

@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+
+<launch>
+
+    <rosparam command="load" file="$(find cr2_control)/config/keyboard.yml"/>
+    <node pkg="teleop_twist_keyboard" type="teleop_twist_keyboard.py" name="teleop_twist_keyboard" output="screen"/>
+
+</launch>
