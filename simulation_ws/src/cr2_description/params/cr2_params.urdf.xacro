@@ -42,6 +42,8 @@
 
     <!--DEBUG-->
     <!--/DEBUG-->
+    <xacro:property name="body_color"           value="DarkGrey"/>
+    <xacro:property name="back_cover_color"     value="DarkGrey"/>
 
 
 <!--BODY-->
@@ -57,7 +59,6 @@
     <xacro:property name="back_cover_width"     value="0.195"/>     <!-- has been measured via Rviz -->
     <xacro:property name="back_cover_height"    value="0.001"/>     <!-- has been measured via Rviz -->
     <xacro:property name="back_cover_lenght"    value="0.578"/>     <!-- has been measured via Rviz -->
-
 
     <!--TODO Check back_cover mass -->
     <xacro:property name="back_cover_mass"      value="0.0"/>
@@ -178,6 +179,8 @@
     <xacro:property name="head_box_z" value="0.26"/>
     <xacro:property name="head_box_x" value="${body_box_x}"/>
     <xacro:property name="head_box_y" value="${body_box_y}"/>
+
+    
 
 
     <xacro:property name="head_to_body_margin" value="0.02"/>

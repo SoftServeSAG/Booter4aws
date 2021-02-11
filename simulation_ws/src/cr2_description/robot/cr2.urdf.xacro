@@ -41,7 +41,6 @@
 
   <xacro:add_sensors/>
 
-
   <xacro:include filename="$(find cr2_description)/robot/cr2.gazebo.xacro"/>
 
 </robot>

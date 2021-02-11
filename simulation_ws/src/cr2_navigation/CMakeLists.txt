@@ -6,7 +6,7 @@ find_package(catkin REQUIRED COMPONENTS roslaunch)
 catkin_package()
 
 install(
-  DIRECTORY launch maps params
+  DIRECTORY launch maps params rviz
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION})
 
 if(CATKIN_ENABLE_TESTING)

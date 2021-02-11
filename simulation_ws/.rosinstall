@@ -23,6 +23,17 @@
     version: master
 
 - git:
+    uri: https://github.com/nobleo/full_coverage_path_planner.git
+    local-name: src/deps/full_coverage_path_planner
+    version: master
+
+- git:
+    uri: https://github.com/nobleo/tracking_pid.git
+    local-name: src/deps/tracking_pid
+    version: master
+
+- git:
     local-name: src/tests/aws_ros_tests
     uri: https://github.com/SoftServeSAG/aws_ros_tests.git
     version: feature/navigation_test
+

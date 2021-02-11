@@ -1,0 +1,51 @@
+<launch>
+    <arg name="gui" default="false"/>
+    
+    <arg name="x" default="$(env START_X)" />
+    <arg name="y" default="$(env START_Y)" />
+    <arg name="z" default="$(env START_Z)" />
+    <arg name="yaw" default="$(env START_YAW)" />
+    
+    <arg name="model_name" default="cr2" />
+    <arg name="map" default="$(find softserve_empty_world)/maps/square.yaml"/>
+
+    <!-- arguments for coverage map -->
+    <arg name="coverage_area_offset" default="-6 -6 0 0 0 0"/>
+    <arg name="coverage_area_size_x" default="12"/>
+    <arg name="coverage_area_size_y" default="10"/>
+
+    <!-- Launch cr2 control -->
+    <include file="$(find cr2_control)/launch/control.launch"/>
+
+    <!-- Launch the world -->
+    <include file="$(find softserve_empty_world)/launch/square.launch" >
+        <arg name="gui" value="$(arg gui)" />
+    </include>
+
+    <!-- Remap cmd_vel to support move_base_flex -->
+    <remap from="move_base/cmd_vel" to="/cmd_vel"/>
+
+    <!-- spawn robot -->
+    <include file="$(find cr2_description)/launch/description.launch"/>
+    <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model"
+          args="-urdf -model $(arg model_name) -param robot_description -x $(arg x)
+              -y $(arg y)
+              -z $(arg z)
+              -Y $(arg yaw)"/>
+
+    <!-- Start full coverage planner -->
+    <include file="$(find cr2_navigation)/launch/coverage_demo.launch">
+        <arg name="rviz" value="$(arg gui)" />
+        <arg name="map" value="$(arg map)" />
+    </include>
+
+
+    <!-- Launch test -->
+    <include file="$(find mp_behaviour_tests)/launch/coverage_test.launch">
+        <arg name="coverage_area_offset" value="$(arg coverage_area_offset)"/>
+        <arg name="coverage_area_size_x" value="$(arg coverage_area_size_x)"/>
+        <arg name="coverage_area_size_y" value="$(arg coverage_area_size_y)"/>
+    </include>
+
+
+</launch>

@@ -15,7 +15,7 @@
                 <xacro:load_mash_scaled
                         mash_filename="${cr2_body_mash}"
                         scale_proportion="${scale_proportion}" />
-                <xacro:red_material/>
+                <xacro:set_material color="${body_color}"/>
                 <xacro:body_to_base_platform_translation_mash/>
             </visual>
 
@@ -34,16 +34,15 @@
                 <!--TODO check for it, maybe origin should be changed-->
                 <xacro:body_to_base_platform_translation_box/>
             </xacro:set_inertial>
-
-
         </link>
+        
         <link name="back_cover">
             <visual>
                 <xacro:back_cover_mash_translaton/>
                 <xacro:load_mash_scaled
                         mash_filename="${back_cover_mash}"
                         scale_proportion="${scale_proportion}" />
-                <xacro:red_material/>
+                <xacro:set_material color="${back_cover_color}"/>
             </visual>
 
             <xacro:dummy_interia/>
