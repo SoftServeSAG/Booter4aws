@@ -40,10 +40,13 @@
     <xacro:property name="tray_mash" value="package://cr2_description/meshes/tray.stl"/>
     <!--/MASHES-->
 
-    <!--DEBUG-->
-    <!--/DEBUG-->
-    <xacro:property name="body_color"           value="DarkGrey"/>
-    <xacro:property name="back_cover_color"     value="DarkGrey"/>
+    <xacro:property name="base_color"           value="DarkGrey"/>  
+
+    <xacro:property name="body_color"           value="${base_color}"/>
+    <xacro:property name="back_cover_color"     value="${base_color}"/>
+    <xacro:property name="head_color"           value="${base_color}"/>
+    <xacro:property name="tray_color"           value="${base_color}"/>
+    <xacro:property name="monitor_color"           value="${base_color}"/>
 
 
 <!--BODY-->

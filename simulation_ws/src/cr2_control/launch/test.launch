@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<launch>
+    <arg name="gui" default="false" />
+    <arg name="rviz" default="true" />
+    
+    <arg name="x" value="$(env START_X)" />
+    <arg name="y" value="1.0" />
+    <arg name="z" value="$(env START_Z)" />
+    <arg name="yaw" value="$(env START_YAW)" />
+    
+    <arg name="model_name" value="cr2" />
+    
+
+    <!-- Launch cr2 control -->
+    <include file="$(find cr2_control)/launch/control.launch"/>
+
+    <!-- Launch the world -->
+    <include file="$(find softserve_empty_world)/launch/square.launch" >
+        <arg name="gui" default="$(arg gui)" />
+    </include>
+    <remap from="move_base/cmd_vel" to="/cmd_vel"/>
+
+    <!-- spawn robot -->
+    <include file="$(find cr2_description)/launch/description.launch"/>
+    <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model"
+          args="-urdf -model $(arg model_name) -param robot_description -x $(arg x)
+              -y $(arg y)
+              -z $(arg z)
+              -Y $(arg yaw)"/>
+
+              
+    <!-- <remap from="cmd_vel" to="ridgeback_velocity_controller/cmd_vel"/>
+    <remap from="odom" to="ridgeback_velocity_controller/odom"/> -->
+
+</launch>

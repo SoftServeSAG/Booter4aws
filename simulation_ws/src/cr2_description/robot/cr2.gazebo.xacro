@@ -45,9 +45,24 @@
   </gazebo>
 
   <gazebo reference="body">
-    <xacro:set_gazebo_material color="DarkGrey"/>
+    <xacro:set_gazebo_material color="${body_color}"/>
   </gazebo>
 
+  <gazebo reference="head">
+    <xacro:set_gazebo_material color="${head_color}"/>
+  </gazebo>
+
+  <gazebo reference="tray">
+    <xacro:set_gazebo_material color="${tray_color}"/>
+  </gazebo>
+
+  <gazebo reference="monitor">
+    <xacro:set_gazebo_material color="${monitor_color}"/>
+  </gazebo>
+
+  <gazebo reference="back_cover">
+    <xacro:set_gazebo_material color="${back_cover_color}"/>
+  </gazebo>
 <!--
   <gazebo reference="head">
     <material>Gazebo/DarkGrey</material>

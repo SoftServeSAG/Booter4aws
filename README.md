@@ -17,7 +17,6 @@ This description is valid for AWS Robomaker Cloud9 IDE and it is not tested loca
 
 This repository is created to demonstarte CR2 robot on AWS Robomaker.
 
-
 ## Initial ROS setup
 1. Download this repository 
 2. Go to downloaded folder and run `./setup/ros_setup.bash`

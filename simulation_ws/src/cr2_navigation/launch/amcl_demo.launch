@@ -10,10 +10,10 @@
         <arg unless="$(arg simulation)" name="scan_topic" value="/rpi_scan_filtered"/>
     </include>
 
-    <include file="$(find cr2_navigation)/launch/include/move_base.launch">
+    <!-- <include file="$(find cr2_navigation)/launch/include/move_base.launch">
         <arg if="$(arg simulation)" name="params_dir_path" value="$(find cr2_navigation)/params/sim/move_base"/>
         <arg unless="$(arg simulation)" name="params_dir_path" value="$(find cr2_navigation)/params/hw/move_base"/>
-    </include>
+    </include> -->
 
     <include file="$(find cr2_navigation)/launch/include/ekf.launch">
         <arg if="$(arg simulation)" name="params_dir_path" value="$(find cr2_navigation)/params/sim/ekf"/>

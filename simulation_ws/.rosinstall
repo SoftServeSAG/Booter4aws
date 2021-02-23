@@ -34,6 +34,5 @@
 
 - git:
     local-name: src/tests/aws_ros_tests
-    uri: https://github.com/SoftServeSAG/aws_ros_tests.git
-    version: feature/navigation_test
-
+    uri: git@github.com:SoftServeSAG/aws_ros_tests.git
+    version: master

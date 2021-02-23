@@ -742,7 +742,6 @@
         </noise>
       </ray>
       <plugin filename="libgazebo_ros_laser.so" name="gazebo_ros_rplidar_controller">
-        <!--<topicName>laser/scan</topicName>-->
         <topicName>front/scan</topicName>
         <frameName>laser_oscillator</frameName>
         <!--<frameName>front_laser</frameName>-->

@@ -23,7 +23,7 @@
                 <xacro:load_mash_scaled
                         mash_filename="${cr2_head_mash}"
                         scale_proportion="${scale_proportion}" />
-              <xacro:set_material color="DarkGrey"/>
+              <xacro:set_material color="${head_color}"/>
             </visual>
 
 
@@ -51,7 +51,7 @@
                 <xacro:load_mash_scaled
                         mash_filename="package://cr2_description/meshes/tray.stl"
                         scale_proportion="${scale_proportion}" />
-                <xacro:green_material/>
+                <xacro:set_material color="${tray_color}"/>
             </visual>
 
             <xacro:box_inertia
@@ -74,7 +74,7 @@
                       width="${monitor_width}"
                       height="${monitor_height}"
                       depth="${monitor_lenght}"/>
-              <xacro:black_material/>
+              <xacro:set_material color="${monitor_color}"/>
             </visual>
 
             <xacro:box_inertia

@@ -1,0 +1,17 @@
+<launch>
+    <arg name="gui" default="false"/>
+    <arg name="mode" default="dynamic"/>
+
+    <include file="$(find cr2_control)/launch/cr2_single.launch" >
+        <arg name="gui" default="$(arg gui)" />
+    </include>
+
+    <!-- launch with random goals on the map -->
+    <node pkg="softserve_simulation_common" type="move_base_route_manager.py" name="route_manager" output="screen">
+    </node>
+
+    <!--  -->
+    <include file="$(find mp_planning_tests)/launch/goal_tolerance.launch" >
+    </include>
+
+</launch>

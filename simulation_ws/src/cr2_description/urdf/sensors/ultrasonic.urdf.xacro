@@ -63,11 +63,11 @@
         </joint>
     </xacro:macro>
 
-    <xacro:macro name="ultrasonic_gazebo" params="position">
+  <xacro:macro name="ultrasonic_gazebo" params="position">
     <gazebo reference="ultrasonic_transmitter_oscillator_${position}_link">
       <material>Gazebo/Green</material>
       <sensor type="ray" name="sonar_${position}">
-        <pose>0 0 0 0 0 0</pose>
+      <pose>0 0 0 0 0 0</pose>
         <update_rate>1</update_rate>
         <visualize>false</visualize>
         <ray>
