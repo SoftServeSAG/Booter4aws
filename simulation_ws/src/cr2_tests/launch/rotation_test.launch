@@ -1,0 +1,16 @@
+<launch>
+    <arg name="gui" default="false"/>
+    <arg name="model_name" default="cr2"/>
+
+    <include file="$(find cr2_control)/launch/cr2_single.launch" >
+        <arg name="gui" value="$(arg gui)" />
+        <arg name="model_name" value="$(arg model_name)" />
+    </include>
+
+    <include file="$(find mp_slippage_and_motor_saturation_tests)/launch/rotation_test.launch" >
+        <arg name="MODEL_NAME" value="$(arg model_name)" />
+        <arg name="imu_topic" value="/imu"/>
+        <arg name="tolerance" value="0.1" />
+    </include>
+
+</launch>

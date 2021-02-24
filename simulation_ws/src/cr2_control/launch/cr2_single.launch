@@ -8,7 +8,7 @@
     <arg name="z" value="$(env START_Z)" />
     <arg name="yaw" value="$(env START_YAW)" />
     
-    <arg name="model_name" value="cr2" />
+    <arg name="model_name" default="cr2" />
     
     <arg name="robot_namespace" default="/"/>
 

@@ -1,0 +1,14 @@
+<launch>
+    <arg name="gui" default="false"/>
+    <arg name="model_name" value="cr2"/>
+
+    <include file="$(find cr2_control)/launch/cr2_single.launch" >
+        <arg name="gui" default="$(arg gui)" />
+        <arg name="model_name" default="$(arg model_name)" />
+    </include>
+
+    <include file="$(find mp_slippage_and_motor_saturation_tests)/launch/standstill_test.launch" >
+        <arg name="MODEL_NAME" default="$(arg model_name)" />
+    </include>
+
+</launch>
