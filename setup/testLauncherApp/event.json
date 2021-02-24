@@ -111,6 +111,48 @@
 				   "assignPublicIp": true
             }
          }
+      },
+   {
+         "scenarios":[
+            "Scenario2"
+         ],
+         "params":{
+            "failureBehavior": "Fail",
+			   "maxJobDurationInSeconds": 600,
+            "simulationApplications":[
+               {
+                  "applicationVersion": "$LATEST",
+                  "launchConfig":{
+                     "launchFile":"rotation_test.launch",
+                     "packageName":"cr2_tests"
+                  }
+               }
+            ],
+            "vpcConfig": {
+				   "assignPublicIp": true
+            }
+         }
+      },
+   {
+         "scenarios":[
+            "Scenario2"
+         ],
+         "params":{
+            "failureBehavior": "Fail",
+			   "maxJobDurationInSeconds": 600,
+            "simulationApplications":[
+               {
+                  "applicationVersion": "$LATEST",
+                  "launchConfig":{
+                     "launchFile":"standstill_test.launch",
+                     "packageName":"cr2_tests"
+                  }
+               }
+            ],
+            "vpcConfig": {
+				   "assignPublicIp": true
+            }
+         }
       }
    ]
 }

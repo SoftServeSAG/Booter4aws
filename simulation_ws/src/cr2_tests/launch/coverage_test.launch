@@ -10,9 +10,9 @@
     <arg name="map" default="$(find softserve_empty_world)/maps/square.yaml"/>
     <!-- <arg name="map" default="$(find aws_robomaker_small_warehouse_world)/maps/005/map.yaml"/> -->
     <!-- arguments for coverage map -->
-    <arg name="coverage_area_offset" default="-7 -10 0 0 0 0"/>
-    <arg name="coverage_area_size_x" default="14"/>
-    <arg name="coverage_area_size_y" default="20"/>
+    <arg name="coverage_area_offset" default="-6 -6 0 0 0 0"/>
+    <arg name="coverage_area_size_x" default="12"/>
+    <arg name="coverage_area_size_y" default="10"/>
 
     <!-- Launch cr2 control -->
     <include file="$(find cr2_control)/launch/control.launch"/>
@@ -49,6 +49,7 @@
         <arg name="coverage_area_offset" value="$(arg coverage_area_offset)"/>
         <arg name="coverage_area_size_x" value="$(arg coverage_area_size_x)"/>
         <arg name="coverage_area_size_y" value="$(arg coverage_area_size_y)"/>
+        <arg name="coverage_goal" value="0.5"/>
     </include>
 
 

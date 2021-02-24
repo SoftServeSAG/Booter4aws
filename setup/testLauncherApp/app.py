@@ -114,21 +114,21 @@ def lambda_handler(event, context):
                 
             else:
                 raise Exception('Scenario %s does not exist.' % scenario)
-        print(jobs)        
-        response = client.start_simulation_job_batch(
+    print(jobs)        
+    response = client.start_simulation_job_batch(
             batchPolicy={
                 'timeoutInSeconds': 800,
-                'maxConcurrency': 2
+                'maxConcurrency': 4
             }, 
             createSimulationJobRequests=jobs, 
             tags = {
                 'launcher': 'tests',
         })
 
-        output['batchSimJobArn'] = response['arn']
+    output['batchSimJobArn'] = response['arn']
         
-        if not output['batchSimJobArn']:
-            raise Exception('Error launching batch simulation jobs. Check your scenarios JSON document.')
+    if not output['batchSimJobArn']:
+        raise Exception('Error launching batch simulation jobs. Check your scenarios JSON document.')
         
     return output
     
