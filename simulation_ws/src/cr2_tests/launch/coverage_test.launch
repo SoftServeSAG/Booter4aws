@@ -49,7 +49,6 @@
         <arg name="coverage_area_offset" value="$(arg coverage_area_offset)"/>
         <arg name="coverage_area_size_x" value="$(arg coverage_area_size_x)"/>
         <arg name="coverage_area_size_y" value="$(arg coverage_area_size_y)"/>
-        <arg name="coverage_goal" value="0.5"/>
     </include>
 
 

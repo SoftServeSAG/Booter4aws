@@ -8,9 +8,9 @@
     </include>
 
     <include file="$(find mp_slippage_and_motor_saturation_tests)/launch/rotation_test.launch" >
-        <arg name="MODEL_NAME" value="$(arg model_name)" />
-        <arg name="imu_topic" value="/imu"/>
-        <arg name="tolerance" value="0.1" />
+        <arg name="model_name" value="$(arg model_name)" />
+        <arg name="amcl_pose_topic" value="/amcl_pose"/>
+        <arg name="tolerance" value="0.2" />
     </include>
 
 </launch>

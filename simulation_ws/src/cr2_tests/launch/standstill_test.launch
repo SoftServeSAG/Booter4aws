@@ -8,7 +8,7 @@
     </include>
 
     <include file="$(find mp_slippage_and_motor_saturation_tests)/launch/standstill_test.launch" >
-        <arg name="MODEL_NAME" default="$(arg model_name)" />
+        <arg name="model_name" default="$(arg model_name)" />
     </include>
 
 </launch>
