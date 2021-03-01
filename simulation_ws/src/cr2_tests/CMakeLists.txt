@@ -6,6 +6,6 @@ find_package(catkin REQUIRED COMPONENTS roslaunch)
 catkin_package()
 
 install(
-  DIRECTORY launch routes
+  DIRECTORY launch routes rviz
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION})
 
