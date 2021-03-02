@@ -1,6 +1,7 @@
 <launch>
     <arg name="gui" default="false"/>
     <arg name="rviz" default="false"/>
+    <arg name="robot_sdf_file" default="$(find cr2_multifleet)/static_models_w_plugin/cr2/cr2.sdf"/>
 
     <include file="$(find cr2_control)/launch/cr2_single.launch" >
         <arg name="gui" default="$(arg gui)" />
@@ -12,6 +13,7 @@
     <!--  -->
     <include file="$(find mp_behaviour_tests)/launch/obstacle_avoidance_test.launch" >
         <!-- <rosparam file="$(find <your_package>)/routes/route.yaml" command="load"/>  -->
+        <arg name="obstacle_sdf_file" value="$(arg robot_sdf_file)" />
     </include>
 
         <!-- rviz -->
